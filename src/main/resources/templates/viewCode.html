@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My code</title>
+  <script type="text/javascript" src="../highlight.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="../styles/androidstudio.min.css"/>
+  <style>
+    @font-face {
+      font-family: Nunito Sans; /* Гарнитура шрифта */
+      src: url(../fonts/NunitoSans-Italic.ttf); /* Путь к файлу со шрифтом */
+    }
+
+    ::-webkit-scrollbar {
+      background-color: #443662FF;
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      display: none;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-image: -webkit-gradient(linear, left bottom, left top, color-stop(.5, #8551e0), color-stop(1, #88b6dc));
+      border-radius: 10px;
+    }
+
+    body {
+      color: #EEE3F3;
+      background: linear-gradient(135deg, #443662, rgb(61, 44, 97)) no-repeat center top/cover;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .code {
+      box-shadow: 8px 7px 25px 13px rgba(45, 45, 65, 0.5);
+      border-radius: 34px;
+      min-width: 612px;
+    }
+
+    p {
+      line-height: 30px;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .col-1 {
+      -ms-flex: 0 0 8.333333%;
+      flex: 0 0 8.333333%;
+      max-width: 8.333333%;
+    }
+
+    .col-2 {
+      -ms-flex: 0 0 16.666667%;
+      flex: 0 0 16.666667%;
+      max-width: 16.666667%;
+    }
+
+    .col-3 {
+      -ms-flex: 0 0 25%;
+      flex: 0 0 25%;
+      max-width: 25%;
+    }
+
+    .col-4 {
+      -ms-flex: 0 0 33.333333%;
+      flex: 0 0 33.333333%;
+      max-width: 33.333333%;
+    }
+
+    .col-5 {
+      -ms-flex: 0 0 41.666667%;
+      flex: 0 0 41.666667%;
+      max-width: 41.666667%;
+    }
+
+    .col-6 {
+      -ms-flex: 0 0 50%;
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+
+    .col-7 {
+      -ms-flex: 0 0 58.333333%;
+      flex: 0 0 58.333333%;
+      max-width: 58.333333%;
+    }
+
+    .col-8 {
+      -ms-flex: 0 0 66.666667%;
+      flex: 0 0 66.666667%;
+      max-width: 66.666667%;
+    }
+
+    .col-9 {
+      -ms-flex: 0 0 75%;
+      flex: 0 0 75%;
+      max-width: 75%;
+    }
+
+    .col-10 {
+      -ms-flex: 0 0 83.333333%;
+      flex: 0 0 83.333333%;
+      max-width: 83.333333%;
+    }
+
+    .col-11 {
+      -ms-flex: 0 0 91.666667%;
+      flex: 0 0 91.666667%;
+      max-width: 91.666667%;
+    }
+
+    .col-12 {
+      -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    .row {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .container {
+      padding-right: 45px;
+      padding-left: 45px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .m-3 {
+      margin: 1rem !important;
+    }
+
+    .searchBox {
+      width: 332px;
+      height: 57px;
+      background: #EEE3F3;
+      border-radius: 20px 0px 0px 20px;
+      border-right: 3px solid #564874;
+    }
+    .searchBoxIcon{
+      width: 63px;
+      height: 59px;
+      background: #EEE3F3;
+      border-radius: 0px 20px 20px 0px;
+    }
+    .searchBox:hover{
+      background: #e8cff1;
+    }
+    .searchBoxIcon:hover{
+      background: #e8cff1;
+      cursor: pointer;
+    }
+    .right{
+      margin-left: auto;
+    }
+    .p-3{
+      padding: 1rem !important;
+    }
+    input:focus-visible {
+      outline-offset: 0px;
+    }
+    :focus-visible {
+      outline: -webkit-focus-ring-color auto 0px;
+    }
+    input{
+      border-width: 0;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: 20px;
+    }
+
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="container">
+    <div class="row p-3">
+      <div>
+        <img src="../images/Logo.svg">
+      </div>
+      <div class="right">
+        <input type="text" class="searchBox">
+      </div>
+      <div class="searchBoxIcon">
+        <img style="padding: 10px" src="../images/search_Icon.svg">
+      </div>
+    </div>
+  </div>
+  <div class="row m-3">
+
+
+    <div class="col-5" style="min-width: 612px;">
+        <pre>
+    <code class="language-java">
+    @Override
+    public boolean sendMessageToEmail(String email, String subject, String text) {
+        MimeMessage message = smtpMessage.getMessage();
+        try {
+            message.setRecipients(Message.RecipientType.TO, email);
+            message.setSubject(subject, "UTF-8");
+            Multipart multipart = new MimeMultipart();
+
+            MimeBodyPart messagePart = new MimeBodyPart();
+            messagePart.setText(text, "UTF-8");
+            multipart.addBodyPart(messagePart);
+
+            message.setContent(multipart);
+            message.setSentDate(new java.util.Date());
+            Transport.send(message);
+        }catch (MessagingException ex) {
+            log.error("Ошибка создания письма - MimeMessage.", ex);
+            return false;
+        }
+        return true;
+    }
+        </code>
+        </pre>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-6" style="min-width: 520px">
+      <p>Lörem ipsum vass Erik Jonasson. Julia Gunnarsson lenat valogi utom prens. Agons pres pyde bes. Ira
+        teleling
+        gupåsat. Anas polyda eftersom dorade och enit.</p>
+      <p>Bioterrorism dystik. Morade burtad monoling. Mälig telasam Gunilla Lundström sedan bröllopskoordinator.
+        Symor. Biogt Johanna Jonasson.</p>
+      <p>Kvasituböll kvasis. Sutagen autovis guvaledes. Operalogi Irene Dahlberg tösk. Pelör
+        egenanställningsföretag.
+        Ultrasamma neling att vägg-tv pörände.</p>
+      </p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  hljs.highlightAll();
+</script>
+</body>
+</html>
