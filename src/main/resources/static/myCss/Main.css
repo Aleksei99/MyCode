@@ -16,9 +16,11 @@
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(.5, #8551e0), color-stop(1, #88b6dc));
     border-radius: 10px;
 }
-
-body {
-    height: calc(100vh - 30px);
+body{
+    margin: 0;
+}
+.body {
+    min-height: calc(100vh - 30px);
     color: #EEE3F3;
     background: linear-gradient(135deg, #443662, rgb(61, 44, 97)) no-repeat center top/cover;
     font-family: 'Nunito Sans', sans-serif;
@@ -217,7 +219,7 @@ input{
 
 @media (max-width: 1200px) {
     .code-right-padding {
-        padding-right: 85px;
+        padding-right: 50px;
     }
 }
 
@@ -343,5 +345,7 @@ ul{
     font-style: italic;
     line-height: 30px;
     display: flex;
+    color: #198f1c;
+    background: #2d2d2d;
     justify-content: center
 }

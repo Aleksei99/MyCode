@@ -11,7 +11,7 @@
     <link type="text/css" rel="stylesheet" th:href="@{/myCss/Main.css}"/>
 </head>
 <body>
-<div class="container">
+<div class="container body">
     <div th:replace="~{header::header}"></div>
     <div class="row m-top-3">
         <div class="col code-right-padding">
@@ -54,8 +54,8 @@
             </p>
         </div>
     </div>
-    <div th:replace="~{footer::foot}"></div>
 </div>
+<div th:replace="~{footer::foot}"></div>
 <script type="text/javascript">
     hljs.highlightAll();
 </script>
