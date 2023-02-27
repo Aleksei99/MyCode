@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+    <script type="text/javascript" th:src="@{/jquery.min.js}"></script>
+</head>
+<body>
+    <header th:fragment="header" class="header">
+        <div class="row p-3">
+            <div>
+                <img style="margin-top: 12px" th:src="@{/images/Logo.svg}">
+            </div>
+            <div class="right-menu">
+                <a class="menuItem" href="#">My storage</a>
+                <a class="menuItem" href="#">FAQ</a>
+                <a class="menuItem" href="#">Sign In</a>
+            </div>
+            <div id="nav-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div id="sidebar">
+            <nav>
+                <ul>
+                    <li>
+                        <a class="burgerItem" href="#">My storage</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a class="burgerItem" href="#">FAQ</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a class="burgerItem" href="#">Sign In</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+</body>
+</html>
