@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My code</title>
+    <script type="text/javascript" th:src="@{/highlight.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/myJs/Main.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/styles/androidstudio.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/myCss/Main.css}"/>
+</head>
+<body>
+<div class="container body">
+    <div th:replace="~{header::header}"></div>
+    <div class="wrapperArea">
+        <div class="wrapper">
+            <div class=" wrappedCard">
+                <div style="display: flex">
+                    <div style="width: 50%">
+                        <p>Java pure code</p>
+                    </div>
+                    <div style="width: 50%">
+                        <img style="margin-right: auto" width="120px" height="120px" th:src="@{/images/JavaLogo.png}">
+                    </div>
+                </div>
+                <div>
+
+                </div>
+            </div>
+            <div class=" wrappedCard"></div>
+            <div class=" wrappedCard"></div>
+            <div class=" wrappedCard"></div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{footer::foot}"></div>
+</body>
+</html>

@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ViewCodeController {
+public class MainPageController {
 
-    @GetMapping("/view")
-    public String getViewPage(){
-        return "viewCode";
+    @GetMapping("/")
+    public String getMainPage(){
+        return "main";
     }
 }
