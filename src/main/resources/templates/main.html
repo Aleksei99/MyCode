@@ -14,23 +14,97 @@
 <div class="container body">
     <div th:replace="~{header::header}"></div>
     <div class="wrapperArea">
-        <div class="wrapper">
-            <div class=" wrappedCard">
-                <div style="display: flex">
-                    <div style="width: 50%">
-                        <p>Java pure code</p>
+        <div>
+            <img class="slideArrow" id="slideLeft" th:src="@{/images/left_scroll.svg}">
+        </div>
+        <div id="scroller" class="wrapper">
+            <div onclick="location.href='/view'" class=" wrappedCard">
+                <div class="cardHeader">
+                    <div class="javaText">
+                        Java pure code
                     </div>
-                    <div style="width: 50%">
-                        <img style="margin-right: auto" width="120px" height="120px" th:src="@{/images/JavaLogo.png}">
+                    <div class="javaLogo">
+                        <img class="javaLogoSize" th:src="@{/images/JavaLogo.png}">
                     </div>
                 </div>
-                <div>
-
+                <div class="cardFooter">
+                    <div class="sampleNumber">
+                        74
+                    </div>
+                    <div class="sample">
+                        samples
+                    </div>
+                    <div class="cardArrow">
+                        <img th:src="@{/images/rightArrow.svg}">
+                    </div>
                 </div>
             </div>
-            <div class=" wrappedCard"></div>
-            <div class=" wrappedCard"></div>
-            <div class=" wrappedCard"></div>
+            <div onclick="location.href='/view'" class=" wrappedCard">
+                <div class="cardHeader">
+                    <div class="javaText">
+                        Spring framework
+                    </div>
+                    <div class="javaLogo">
+                        <img class="springLogoSize" th:src="@{/images/springLogo.png}">
+                    </div>
+                </div>
+                <div class="cardFooter">
+                    <div class="sampleNumber">
+                        74
+                    </div>
+                    <div class="sample">
+                        samples
+                    </div>
+                    <div class="cardArrow">
+                        <img th:src="@{/images/rightArrow.svg}">
+                    </div>
+                </div>
+            </div>
+            <div onclick="location.href='/view'" class=" wrappedCard">
+                <div class="cardHeader">
+                    <div class="javaText">
+                        SQL
+                    </div>
+                    <div class="javaLogo">
+                        <img class="javaLogoSize" th:src="@{/images/dbLogo.png}">
+                    </div>
+                </div>
+                <div class="cardFooter">
+                    <div class="sampleNumber">
+                        74
+                    </div>
+                    <div class="sample">
+                        samples
+                    </div>
+                    <div class="cardArrow">
+                        <img th:src="@{/images/rightArrow.svg}">
+                    </div>
+                </div>
+            </div>
+            <div onclick="location.href='/view'" class=" wrappedCard">
+                <div class="cardHeader">
+                    <div class="javaText">
+                        Java pure code
+                    </div>
+                    <div class="javaLogo">
+                        <img class="javaLogoSize" th:src="@{/images/JavaLogo.png}">
+                    </div>
+                </div>
+                <div class="cardFooter">
+                    <div class="sampleNumber">
+                        74
+                    </div>
+                    <div class="sample">
+                        samples
+                    </div>
+                    <div class="cardArrow">
+                        <img th:src="@{/images/rightArrow.svg}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <img class="slideArrow" id="slideRight" th:src="@{/images/right_scroll.svg}">
         </div>
     </div>
 </div>
