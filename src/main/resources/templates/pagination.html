@@ -8,25 +8,77 @@
 <body>
 <div th:fragment="controls"
      class="paginationArea"
-     th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder)}">
+     th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder)},math=${T(java.lang.Math)}">
     <div class="smallPagination">
         <div>
-        <a id="pagination-mobile-previous"
-           th:href="${page.isFirst()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number - 1).toUriString()}"
-           class="btn btn-primary"
-           th:classappend="${page.isFirst()?'disabled':''}"
-           th:disabled="${page.isFirst()}">
-            Previous
-        </a>
+            <a id="pagination-mobile-previous"
+               th:href="${page.isFirst()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number - 1).toUriString()}"
+               class="btn btn-dark"
+               th:classappend="${page.isFirst()?'disabled':''}"
+               th:disabled="${page.isFirst()}">
+                Previous
+            </a>
         </div>
         <div>
-        <a id="pagination-mobile-next"
-           th:href="${page.isLast()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number + 1).toUriString()}"
-           class="btn btn-primary"
-           th:classappend="${page.isLast()?'disabled':''}"
-           th:disabled="${page.isLast()}">
-            Next
-        </a>
+            <p id="pagination-summary" class="font-small">
+                <span th:text="${(page.getSize() *page.getNumber()) + 1}">1</span>
+                to
+                <span th:text="${(page.getSize() *page.getNumber()) + page.getNumberOfElements()}">10</span>
+                of
+                <span th:text="${page.getTotalElements()}">97</span>
+            </p>
+        </div>
+        <div>
+            <a id="pagination-mobile-next"
+               th:href="${page.isLast()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number + 1).toUriString()}"
+               class="btn btn-dark"
+               th:classappend="${page.isLast()?'disabled':''}"
+               th:disabled="${page.isLast()}">
+                Next
+            </a>
+        </div>
+    </div>
+    <div class="bigPagination" style="display: flex;justify-content: space-between;width: 100%">
+        <div style="display: flex">
+            <div>
+                <p id="pagination-summary" class="font-small">
+                    <span th:text="${(page.getSize() *page.getNumber()) + 1}">1</span>
+                    to
+                    <span th:text="${(page.getSize() *page.getNumber()) + page.getNumberOfElements()}">10</span>
+                    of
+                    <span th:text="${page.getTotalElements()}">97</span>
+                </p>
+            </div>
+        </div>
+        <div style="display: flex;align-items: center">
+            <div>
+                <a id="pagination-mobile-previous"
+                   th:href="${page.isFirst()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number - 1).toUriString()}"
+                   class="btn btn-dark"
+                   th:classappend="${page.isFirst()?'disabled':''}"
+                   th:disabled="${page.isFirst()}">
+                    Previous
+                </a>
+            </div>
+            <th:block
+                    th:with="startPage=${math.max(1, page.getNumber() -1)},endPage=${math.min(startPage + 4, page.getTotalPages())}">
+                <a th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}"
+                   th:id="${'pagination-page-' + pageNumber}"
+                   th:href="${urlBuilder.fromCurrentRequest().replaceQueryParam('page', pageNumber -1).toUriString()}"
+                   class="btn"
+                   th:classappend="${page.number == pageNumber - 1?'btn-dark-selected':'btn-grey'}">
+                    <span th:text="${pageNumber}" th:remove="tag"></span>
+                </a>
+            </th:block>
+            <div>
+                <a id="pagination-mobile-next"
+                   th:href="${page.isLast()}?'javascript:void(0)':${urlBuilder.fromCurrentRequest().replaceQueryParam('page', page.number + 1).toUriString()}"
+                   class="btn btn-dark"
+                   th:classappend="${page.isLast()?'disabled':''}"
+                   th:disabled="${page.isLast()}">
+                    Next
+                </a>
+            </div>
         </div>
     </div>
 </div>
