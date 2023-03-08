@@ -206,6 +206,9 @@ input{
     .smallPagination{
         display: flex !important;
     }
+    .bigPagination{
+        display: none !important;
+    }
     .paginationArea{
         display: block !important;
     }
@@ -319,7 +322,7 @@ input{
 }
 
 #nav-icon.open span:nth-child(2) {
-    width: 0%;
+    width: 0;
     opacity: 0;
 }
 
@@ -447,7 +450,7 @@ ul{
     width: -webkit-fill-available;
     font-size: 34px;
 }
-.javaLogo{
+.cardLogo{
     width: 50%;
     margin-right: auto;
     display: flex;
@@ -455,7 +458,7 @@ ul{
     padding-right: 10px;
     padding-top: 30px;
 }
-.javaText{
+.cardTitle{
     width: 50%;
     padding-top: 50px;
     padding-left: 20px;

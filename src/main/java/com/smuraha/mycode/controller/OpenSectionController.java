@@ -1,54 +1,50 @@
 package com.smuraha.mycode.controller;
 
+import com.google.common.collect.ImmutableList;
 import com.smuraha.mycode.dto.TestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
+import java.util.function.Function;
 
 @Controller
 public class OpenSectionController {
 
+    private final ImmutableList<TestDto> testDtos = ImmutableList.of(
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa"),
+            new TestDto("Alex", "jpa")
+    );
+
+    private final Function<Pageable, Page<TestDto>> pageFetcher = pageable -> {
+        int pageSize = pageable.getPageSize();
+        int pageNo = pageable.getPageNumber();
+        int start = pageSize * pageNo;
+        int end = Math.min(start + pageSize, testDtos.size());
+        return new PageImpl<>(testDtos.subList(start, end), pageable, testDtos.size());
+    };
+
+    public OpenSectionController() {}
+
     @GetMapping("/{section}")
-    public String getSection(@PathVariable String section, Pageable pageable, Model model){
-        final List<TestDto> testDtos = List.of(
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa"),
-                new TestDto("Alex", "jpa")
-        );
-
-        Page<TestDto> samples = toPage(testDtos, pageable);
-        model.addAttribute("samples",samples);
+    public String getSection(@PathVariable String section, Pageable pageable, Model model) {
+        Page<TestDto> samples = pageFetcher.apply(pageable);
+        model.addAttribute("samples", samples);
         return "openSection";
-    }
-
-    private <T> Page<T> toPage(List<T> list, Pageable pageable) {
-
-        int pageSize= pageable.getPageSize();
-        int pageNo=pageable.getPageNumber();
-        int totalPages = list.size() / pageSize;
-        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
-
-        int max = pageNo>=totalPages? list.size():pageSize*(pageNo+1);
-        int min = pageNo >totalPages? max:pageSize*pageNo;
-
-        return new PageImpl<>(list.subList(min, max), pageRequest,
-                list.size());
     }
 }
