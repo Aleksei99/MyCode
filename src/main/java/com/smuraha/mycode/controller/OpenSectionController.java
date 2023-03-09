@@ -41,7 +41,7 @@ public class OpenSectionController {
 
     public OpenSectionController() {}
 
-    @GetMapping("/{section}")
+    @GetMapping("/section/{section}")
     public String getSection(@PathVariable String section, Pageable pageable, Model model) {
         Page<TestDto> samples = pageFetcher.apply(pageable);
         model.addAttribute("samples", samples);

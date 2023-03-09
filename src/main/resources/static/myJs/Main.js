@@ -69,3 +69,9 @@ function sideScroll(element,direction,speed,distance,step){
         }
     }, speed);
 }
+//--------УБРАТЬ автозаполнение-----------
+$(document).ready(function () {
+    console.log('hello')
+    $('input:-webkit-autofill').css('background-color','#f6f6f6');
+    $('input:-webkit-autofill').css('border-color','#ccc');
+});

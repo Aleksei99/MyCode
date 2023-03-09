@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My code</title>
+    <script type="text/javascript" th:src="@{/myJs/highlight.min.js}"></script>
+    <script type="text/javascript" th:src="@{/myJs/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/myJs/Main.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/styles/androidstudio.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/myCss/Main.css}"/>
+</head>
+<body>
+<div class="containerLogin">
+    <div class="wrap-login100">
+        <form class="login100-form" th:action="@{/login}" method="post">
+            <div class="login100-form-logo">
+                <img th:src="@{/images/Logo.svg}">
+            </div>
+            <div class="form-floating">
+                <input autocomplete="true" type="text" class="form-control wrap-input100" name="username" id="username" placeholder="user">
+                <label style="color: white" for="username">Email</label>
+            </div>
+            <div class="form-floating">
+                <input  autocomplete="true" type="password" class="form-control wrap-input100" name="password" id="password" placeholder="Password">
+                <label style="color: white" for="password">Password</label>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
