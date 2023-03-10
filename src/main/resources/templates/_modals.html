@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--TODO Попробовать через ChatGPT вычленить css из бутстрапа bootstrap/5.2.2/css/bootstrap.min.css-->
+<div th:fragment="addReport" class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addModalTitle">Добавление отчёта</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/admin/flexReports/new}" method="post" th:object="${newReport}">
+                    <div class="form-group row mt-3">
+                        <label for="name" class="col-sm-3 col-form-label col-form-label-lg">Название</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" id="name" type="text" th:field="*{name}">
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label for="group" class="col-sm-3 col-form-label col-form-label-lg">Группа
+                            отчётов</label>
+                        <div class="col-sm-9">
+                            <select id="group" class="form-control" th:field="*{flexReportGroup}">
+                                <option th:each="flexReportGroup : ${flexReportGroups}"
+                                        th:text="${flexReportGroup.name}"
+                                        th:value="${flexReportGroup.id}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <label for="sql" class="col-sm-2 col-form-label col-form-label-lg">SQL</label>
+                        <div class="col-sm-10">
+                                    <textarea class="form-control" style="height: 250px" id="sql" type="text"
+                                              th:field="*{sql}"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Сохранить</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

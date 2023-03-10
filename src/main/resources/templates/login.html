@@ -18,12 +18,25 @@
                 <img th:src="@{/images/Logo.svg}">
             </div>
             <div class="form-floating">
-                <input autocomplete="true" type="text" class="form-control wrap-input100" name="username" id="username" placeholder="user">
+                <input autocomplete="true" type="text" class="form-control wrap-input100" name="username" id="username"
+                       placeholder="user">
                 <label style="color: white" for="username">Email</label>
             </div>
             <div class="form-floating">
-                <input  autocomplete="true" type="password" class="form-control wrap-input100" name="password" id="password" placeholder="Password">
+                <input autocomplete="true" type="password" class="form-control wrap-input100" name="password"
+                       id="password" placeholder="Password">
                 <label style="color: white" for="password">Password</label>
+            </div>
+            <div class="container-login100-form-btn">
+                <div class="loginHintContainer forgotPassword">
+                    <a class="loginHint" th:href="@{/resetPassword}">Forgot password?</a>
+                </div>
+                <div class="loginHintContainer mobileTop20">
+                    <button class="login100-form-btn">Login</button>
+                </div>
+                <div class="loginHintContainer">
+                    <a class="loginHint" th:href="@{/registration}">Not registered yet?</a>
+                </div>
             </div>
         </form>
     </div>

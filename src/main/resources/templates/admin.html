@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My code</title>
+    <script type="text/javascript" th:src="@{/myJs/highlight.min.js}"></script>
+    <script type="text/javascript" th:src="@{/myJs/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/myJs/Main.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/styles/androidstudio.min.css}"/>
+<!--    <link rel="old stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}"/>-->
+    <link type="text/css" rel="new stylesheet" th:href="@{/myCss/Main.css}"/>
+</head>
+<style>
+    .admin-section-container {
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 700px;
+    }
+    .table-section-header{
+        padding-left: 40px;
+    }
+</style>
+<body>
+<div class="container body">
+    <div th:replace="~{header::header}"></div>
+    <div class="admin-section-container">
+        <h4 class="table-section-header">Sections</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Samples</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Java</td>
+                <td>74</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+            <tr>
+                <td>Spring</td>
+                <td>18</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+            <tr>
+                <td>Maven</td>
+                <td>5</td>
+                <td>Edit</td>
+                <td>Delete</td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div th:replace="~{footer::foot}"></div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Header</title>
@@ -15,7 +15,12 @@
                 <a class="menuItem" href="/">Explore</a>
                 <a class="menuItem" href="#">My storage</a>
                 <a class="menuItem" href="#">FAQ</a>
-                <a class="menuItem" href="#">Sign In</a>
+                <a sec:authorize="!isAuthenticated()" class="menuItem" th:href="@{/login}">Sign In</a>
+                <a sec:authorize="isAuthenticated()" class="menuItem" href="javascript: document.logoutForm.submit()"
+                   th:text="'Log out'"></a>
+                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <input hidden type="submit" value="Log out">
+                </form>
             </div>
             <div id="nav-icon">
                 <span></span>
@@ -42,7 +47,16 @@
                 </ul>
                 <ul>
                     <li>
-                        <a class="burgerItem" href="#">Sign In</a>
+                        <a sec:authorize="!isAuthenticated()" class="burgerItem" th:href="@{/login}">Sign In</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a sec:authorize="isAuthenticated()" class="burgerItem" href="javascript: document.burgerLogoutForm.submit()"
+                           th:text="'Log out'"></a>
+                        <form name="burgerLogoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                            <input hidden type="submit" value="Log out">
+                        </form>
                     </li>
                 </ul>
             </nav>
