@@ -21,6 +21,70 @@
     .table-section-header{
         padding-left: 40px;
     }
+    .modal {
+        display: none; /* hide the modal by default */
+        position: fixed; /* position the modal */
+        z-index: 1; /* ensure the modal is above other content */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* enable scrolling */
+        background-color: rgba(0, 0, 0, 0.4); /* add a semi-transparent black background */
+    }
+
+    .modal-content {
+        background: linear-gradient(314.9deg, #90D4D9 17.54%, rgba(163, 144, 217) 94.67%);;
+        margin: 20% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        border-radius: 15px;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    .containerModalImage {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .imageBox {
+        width: 150px;
+        height: 150px;
+        border: 1px solid black;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .imageBox img {
+        display: none;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .imageBox.has-image img {
+        display: block;
+    }
 </style>
 <body>
 <div class="container body">
@@ -58,9 +122,64 @@
 
             </tbody>
         </table>
-
+        <button id="open-modal-btn">Open Modal</button>
     </div>
+    <div th:replace="_modals::addSection"></div>
 </div>
 <div th:replace="~{footer::foot}"></div>
+<script>
+    const modal = document.getElementById("modal");
+    const btn = document.getElementById("open-modal-btn");
+
+    // get the close button
+    const closeBtn = document.querySelector(".close");
+
+    // open the modal when the button is clicked
+    btn.onclick = function() {
+        modal.style.display = "block";
+    };
+
+    // close the modal when the close button is clicked
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // close the modal when the user clicks anywhere outside of it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    function uploadImage() {
+        var fileInput = document.getElementById("image");
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append("image", file);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "uploadImage", true);
+        xhr.onload = function() {
+            if(xhr.status === 200) {
+                var imageContainer = document.getElementById("image-container");
+                var imageUrl = xhr.responseText;
+                var imageElement = document.createElement("img");
+                imageElement.src = imageUrl;
+                imageElement.classList.add("image");
+                imageContainer.appendChild(imageElement);
+            } else {
+                alert("Error uploading image. status="+xhr.status);
+            }
+        };
+        xhr.send(formData);
+    }
+    function previewImage(event) {
+        var image = document.querySelector('.imageBox img');
+        image.src = URL.createObjectURL(event.target.files[0]);
+        image.onload = function() {
+            URL.revokeObjectURL(image.src);
+        }
+        document.querySelector('.imageBox').classList.add('has-image');
+    }
+</script>
 </body>
 </html>
