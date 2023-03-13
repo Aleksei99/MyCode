@@ -5,65 +5,52 @@
     <title>Title</title>
 </head>
 <body>
-<!--TODO Попробовать через ChatGPT вычленить css из бутстрапа bootstrap/5.2.2/css/bootstrap.min.css-->
-<div th:fragment="test" class="modal fade" id="addSectionModal" tabindex="-1" role="dialog" aria-labelledby="addModalTitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="addModalTitle">Добавление отчёта</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form th:action="@{/admin/flexReports/new}" method="post">
-                    <div class="form-group row mt-3">
-                        <label for="name" class="col-sm-3 col-form-label col-form-label-lg">Название</label>
-                        <div class="col-sm-9">
-                            <input class="form-control" id="name" type="text">
-                        </div>
-                    </div>
-                    <div class="form-group row mt-3">
-                        <label for="group" class="col-sm-3 col-form-label col-form-label-lg">Группа
-                            отчётов</label>
-                        <div class="col-sm-9">
-                            <select id="group" class="form-control">
-                                <option value="1">1
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row mt-3">
-                        <label for="sql" class="col-sm-2 col-form-label col-form-label-lg">SQL</label>
-                        <div class="col-sm-10">
-                                    <textarea class="form-control" style="height: 250px" id="sql" type="text"
-                                              >gdfhfghfghh</textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success mt-3">Сохранить</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Отмена</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div th:fragment="addSection" id="modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h4>Hello, this is a modal dialog!</h4>
-        <form>
-            <label for="image">Upload Image:</label>
-            <div class="imageBox">
-                <input id="image" type="file" accept="image/*" onchange="previewImage(event)">
-                <img class="image" src="#" alt="Selected Image">
-            </div>
-            <button type="button" onclick="uploadImage()">Submit</button>
-        </form>
-        <div class="container" id="image-container">
 
+        <div>
+            <span>width</span>
+            <input onchange="changeHeightWidth(this,'width')" style="width: 70px;height: 20px;border-radius: 5px;color: black" value="150" type="number"
+                   name="width"
+                   id="width">
+        </div>
+        <div class="smallWrap">
+            <div id="images" class="images">
+                <div id="imgPic" class="pic">
+                    add
+                </div>
+            </div>
+            <div style="width: 70px;padding: 5px">
+                <div style="width: 100%;height: 45%;display: flex;align-items: flex-end">
+                    <span>height:</span>
+                </div>
+                <div style="height: 55%">
+                    <input onchange="changeHeightWidth(this,'height')" style="width: 90%;height: 20px; border-radius: 5px;color: black" value="150" type="number"
+                           name="height"
+                           id="height">
+                </div>
+            </div>
+            <div style="display: block;width: 100%">
+                <div style="display: flex;justify-content: center;padding: 10px">
+                    <div style="width: 30%;display: flex;text-align: end;padding: 5px;justify-content: end">
+                        <span>Section header</span>
+                    </div>
+                    <input style="height: 40px;font-size: 34px;border-radius: 5px;width: 70%;color: black" type="text"
+                           name="sectionHeader" id="sectionHeader">
+                </div>
+                <div style="display: flex;justify-content: center;padding: 10px">
+                    <div style="width: 30%;display: flex;text-align: end;padding: 5px;justify-content: end">
+                        <span>Name</span>
+                    </div>
+                    <input style="border-radius: 5px;width: 70%;color: black" type="text" name="name" id="name">
+                </div>
+                <div style="display: flex;justify-content: flex-end;padding: 10px;margin-top: 20px">
+                    <button style="padding: 10px 15px;border: none;border-radius: 5px;background-color: #A390D9FF;cursor: pointer" onclick="saveSection()">Save</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

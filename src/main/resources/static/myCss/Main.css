@@ -856,3 +856,14 @@ input:-webkit-autofill:focus {
     color: #d0cece;
     font-size: 15px;
 }
+
+.smallWrap{
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+@media (max-width: 756px) {
+    .smallWrap{
+        flex-wrap: wrap;
+    }
+}

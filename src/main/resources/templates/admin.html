@@ -8,7 +8,7 @@
     <script type="text/javascript" th:src="@{/myJs/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/myJs/Main.js}"></script>
     <link type="text/css" rel="stylesheet" th:href="@{/styles/androidstudio.min.css}"/>
-<!--    <link rel="old stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}"/>-->
+    <!--    <link rel="old stylesheet" th:href="@{/webjars/bootstrap/5.2.2/css/bootstrap.min.css}"/>-->
     <link type="text/css" rel="new stylesheet" th:href="@{/myCss/Main.css}"/>
 </head>
 <style>
@@ -18,9 +18,11 @@
         margin-right: auto;
         max-width: 700px;
     }
-    .table-section-header{
+
+    .table-section-header {
         padding-left: 40px;
     }
+
     .modal {
         display: none; /* hide the modal by default */
         position: fixed; /* position the modal */
@@ -37,14 +39,14 @@
         background: linear-gradient(314.9deg, #90D4D9 17.54%, rgba(163, 144, 217) 94.67%);;
         margin: 20% auto;
         padding: 20px;
-        border: 1px solid #888;
         border-radius: 15px;
         width: 80%;
+        color: #ffffff;
         max-width: 600px;
     }
 
     .close {
-        color: #aaa;
+        color: #3c4249;
         float: right;
         font-size: 28px;
         font-weight: bold;
@@ -56,6 +58,7 @@
         text-decoration: none;
         cursor: pointer;
     }
+
     .containerModalImage {
         display: flex;
         flex-wrap: wrap;
@@ -76,14 +79,91 @@
         border-radius: 5px;
         overflow: hidden;
     }
+
     .imageBox img {
         display: none;
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
+
     .imageBox.has-image img {
         display: block;
+    }
+
+    .images {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .images .img,
+    .images .pic {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+
+    .images .img {
+        width: 150px;
+        height: 150px;
+        background-size: cover;
+        margin-right: 10px;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .images .img:nth-child(3n) {
+        margin-right: 0;
+    }
+
+    .images .img span {
+        display: none;
+        text-transform: capitalize;
+        z-index: 2;
+    }
+
+    .images .img::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        transition: opacity .1s ease-in;
+        border-radius: 4px;
+        opacity: 0;
+        position: absolute;
+    }
+
+    .images .img:hover::after {
+        display: block;
+        background-color: #000;
+        opacity: .5;
+    }
+
+    .images .img:hover span {
+        display: block;
+        color: #fff;
+    }
+
+    .images .pic {
+        background-color: #F5F7FA;
+        align-self: center;
+        text-align: center;
+        text-transform: uppercase;
+        color: #848EA1;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    .pic {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
 <body>
@@ -101,21 +181,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Java</td>
+            <tr th:each="section : ${sections}">
+                <td th:text="${section.name}"></td>
                 <td>74</td>
-                <td>Edit</td>
-                <td>Delete</td>
-            </tr>
-            <tr>
-                <td>Spring</td>
-                <td>18</td>
-                <td>Edit</td>
-                <td>Delete</td>
-            </tr>
-            <tr>
-                <td>Maven</td>
-                <td>5</td>
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
@@ -135,50 +203,94 @@
     const closeBtn = document.querySelector(".close");
 
     // open the modal when the button is clicked
-    btn.onclick = function() {
+    btn.onclick = function () {
         modal.style.display = "block";
     };
 
     // close the modal when the close button is clicked
-    closeBtn.onclick = function() {
+    closeBtn.onclick = function () {
         modal.style.display = "none";
     };
 
     // close the modal when the user clicks anywhere outside of it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     };
 
-    function uploadImage() {
+    function saveSection() {
         var fileInput = document.getElementById("image");
         var file = fileInput.files[0];
         var formData = new FormData();
         formData.append("image", file);
+        formData.append("name",document.getElementById('name').value)
+        formData.append("sectionHeader",document.getElementById('sectionHeader').value)
+        formData.append("width",document.getElementById('width').value)
+        formData.append("height",document.getElementById('height').value)
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "uploadImage", true);
-        xhr.onload = function() {
-            if(xhr.status === 200) {
-                var imageContainer = document.getElementById("image-container");
-                var imageUrl = xhr.responseText;
-                var imageElement = document.createElement("img");
-                imageElement.src = imageUrl;
-                imageElement.classList.add("image");
-                imageContainer.appendChild(imageElement);
-            } else {
-                alert("Error uploading image. status="+xhr.status);
-            }
+        xhr.open("POST", "addSection", true);
+        xhr.onload = function () {
+            location.reload()
         };
         xhr.send(formData);
     }
+
     function previewImage(event) {
         var image = document.querySelector('.imageBox img');
         image.src = URL.createObjectURL(event.target.files[0]);
-        image.onload = function() {
+        image.onload = function () {
             URL.revokeObjectURL(image.src);
         }
         document.querySelector('.imageBox').classList.add('has-image');
+    }
+
+
+    $(document).ready(function () {
+        uploadImage()
+
+        function uploadImage() {
+            var button = $('.images .pic')
+            var uploader = $('<input id="image" hidden type="file" accept="image/*" />')
+            var images = $('.images')
+            images.prepend(uploader)
+
+            button.on('click', function () {
+                uploader.click()
+            })
+
+            uploader.on('change', function () {
+                var reader = new FileReader()
+                reader.onload = function (event) {
+                    images.prepend('<div class="img" style="background-image: url(\'' + event.target.result + '\');" rel="' + event.target.result + '"><span>remove</span></div>')
+                }
+                reader.readAsDataURL(uploader[0].files[0])
+                document.getElementById('images').removeChild(document.getElementById('imgPic'))
+            })
+
+            images.on('click', '.img', function () {
+                $(this).remove()
+                document.getElementById('images').innerHTML = '<div id="imgPic" class="pic">\n' +
+                    '                add\n' +
+                    '            </div>';
+                uploadImage()
+            })
+
+        }
+    });
+
+    function changeHeightWidth(thiz,orientation) {
+
+        var data = thiz.value + 'px';
+        if(orientation=='height') {
+            $('.images .img').css({
+                'height': data
+            })
+        }else {
+            $('.images .img').css({
+                'width': data
+            })
+        }
     }
 </script>
 </body>
