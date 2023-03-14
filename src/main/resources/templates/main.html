@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,13 +18,17 @@
             <img class="slideArrow" id="slideLeft" th:src="@{/images/left_scroll.svg}">
         </div>
         <div id="scroller" class="wrapper">
-            <div onclick="location.href='/view'" class=" wrappedCard">
+            <div th:each="section : ${sections}"
+                 th:data-url="${section.name}"
+                 onclick="location.href=this.getAttribute('data-url')" class=" wrappedCard">
                 <div class="cardHeader">
-                    <div class="cardTitle">
-                        Java pure code
+                    <div class="cardTitle" th:text="${section.sectionHeader}">
                     </div>
-                    <div class="cardLogo">
-                        <img class="javaLogoSize" th:src="@{/images/JavaLogo.png}">
+                    <div th:if="${!isMobile}" class="cardLogo">
+                        <img th:style="${'width:'+section.imageWidth+'px;height:'+section.imageHeight}+'px'" th:src="@{${'/getImage?id='+section.sectionImage.id}}">
+                    </div>
+                    <div th:if="${isMobile}" class="cardLogo">
+                        <img th:style="${'width:'+section.imageWidth*0.6+'px;height:'+section.imageHeight*0.6}+'px'" th:src="@{${'/getImage?id='+section.sectionImage.id}}">
                     </div>
                 </div>
                 <div class="cardFooter">
@@ -39,70 +43,6 @@
                     </div>
                 </div>
             </div>
-            <div onclick="location.href='/view'" class=" wrappedCard">
-                <div class="cardHeader">
-                    <div class="cardTitle">
-                        Spring framework
-                    </div>
-                    <div class="cardLogo">
-                        <img class="springLogoSize" th:src="@{/images/springLogo.png}">
-                    </div>
-                </div>
-                <div class="cardFooter">
-                    <div class="sampleNumber">
-                        74
-                    </div>
-                    <div class="sample">
-                        samples
-                    </div>
-                    <div class="cardArrow">
-                        <img th:src="@{/images/rightArrow.svg}">
-                    </div>
-                </div>
-            </div>
-            <div onclick="location.href='/view'" class=" wrappedCard">
-                <div class="cardHeader">
-                    <div class="cardTitle">
-                        SQL
-                    </div>
-                    <div class="cardLogo">
-                        <img class="javaLogoSize" th:src="@{/images/dbLogo.png}">
-                    </div>
-                </div>
-                <div class="cardFooter">
-                    <div class="sampleNumber">
-                        74
-                    </div>
-                    <div class="sample">
-                        samples
-                    </div>
-                    <div class="cardArrow">
-                        <img th:src="@{/images/rightArrow.svg}">
-                    </div>
-                </div>
-            </div>
-            <div onclick="location.href='/view'" class=" wrappedCard">
-                <div class="cardHeader">
-                    <div class="cardTitle">
-                        Maven
-                    </div>
-                    <div class="cardLogo">
-                        <img class="mavenLogoSize" th:src="@{/images/maven.png}">
-                    </div>
-                </div>
-                <div class="cardFooter">
-                    <div class="sampleNumber">
-                        74
-                    </div>
-                    <div class="sample">
-                        samples
-                    </div>
-                    <div class="cardArrow">
-                        <img th:src="@{/images/rightArrow.svg}">
-                    </div>
-                </div>
-            </div>
-        </div>
         <div>
             <img class="slideArrow" id="slideRight" th:src="@{/images/right_scroll.svg}">
         </div>

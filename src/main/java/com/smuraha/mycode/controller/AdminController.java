@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,13 +50,10 @@ public class AdminController {
     }
 
     @GetMapping("/getImage")
-    public void getImage(@RequestParam("name") String name,HttpServletResponse response) throws IOException {
-        Image image = imageRepository.getImageByName(name);
+    public void getImage(@RequestParam("id") Long id,HttpServletResponse response) throws IOException {
+        Image image = imageRepository.getReferenceById(id);
         response.setContentType(image.getContentType());
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.write(image.getData());
-//        FileOutputStream fileOutputStream = new FileOutputStream("image.png");
-//        fileOutputStream.write(image.getData());
-
     }
 }
