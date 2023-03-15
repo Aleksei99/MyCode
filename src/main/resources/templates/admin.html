@@ -165,22 +165,42 @@
         justify-content: center;
         align-items: center;
     }
-    .newButton{
+
+    .newButton {
         padding: 6px 9px;
         background: darkviolet;
-        border: none;color: aliceblue;
-        border-radius: 5px;cursor: pointer;
+        border: none;
+        color: aliceblue;
+        border-radius: 5px;
+        cursor: pointer;
         -webkit-transition: all .4s;
         -o-transition: all .4s;
         -moz-transition: all .4s;
         transition: all .6s;
     }
-    .newButton:hover{
+
+    .newButton:hover {
         box-shadow: 0px 2px 4px 2px rgba(106, 255, 248, 0.65);
         -webkit-transition: all .4s;
         -o-transition: all .4s;
         -moz-transition: all .4s;
         transition: all .6s;
+    }
+
+    .button {
+        background-color: unset;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .delete:hover {
+        background-color: red;
+    }
+
+    .edit:hover {
+        background-color: #0004ff;
     }
 </style>
 <body>
@@ -201,8 +221,31 @@
             <tr th:each="section : ${sections}">
                 <td th:text="${section.name}"></td>
                 <td>74</td>
-                <td th:data-section="${section.id}" onclick="edit(this.getAttribute('data-section'))">Edit</td>
-                <td>Delete</td>
+                <td th:data-id="${section.id}"
+                    th:data-width="${section.imageWidth}"
+                    th:data-height="${section.imageHeight}"
+                    th:data-name="${section.name}"
+                    th:data-header="${section.sectionHeader}"
+                    th:data-imageid="${section.sectionImage.id}"
+                    onclick="edit(this.getAttribute('data-id'),
+                        this.getAttribute('data-width'),
+                        this.getAttribute('data-height'),
+                        this.getAttribute('data-name'),
+                        this.getAttribute('data-header'),
+                        this.getAttribute('data-imageid')
+                        )">
+                    <button class="button edit">
+                        <img th:src="@{/images/pen.svg}">
+                    </button>
+                </td>
+                <td>
+                    <form th:action="@{/deleteSection}" th:method="delete">
+                        <input type="hidden" name="id" th:value="${section.id}">
+                        <button type="submit" class="button delete">
+                            <img th:src="@{/images/trash.svg}">
+                        </button>
+                    </form>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -220,10 +263,32 @@
     <div th:replace="_modals::addSection"></div>
 </div>
 <div th:replace="~{footer::foot}"></div>
-<script>
-    function edit(section){
-        console.log(section)
+<script th:inline="javascript">
+    function edit(id, width, height, name, header, imageId) {
+        modal.style.display = "block";
+        document.getElementById('width').value = width
+        document.getElementById('height').value = height
+        document.getElementById('name').value = name
+        document.getElementById('sectionHeader').value = header
+        var images = $('.images')
+        document.getElementById('images').innerHTML = '<div id="imgPic" class="pic">\n' +
+            '                add\n' +
+            '            </div>';
+        var editId = document.createElement('div');
+        try {
+            document.getElementById("editId").parentElement.remove()
+        } catch (e) {
+
+        }
+        editId.innerHTML = '<input type="hidden" name="id" id="editId" value="' + id + '">'
+        document.getElementById('modal-content-form').appendChild(editId)
+        document.getElementById('images').removeChild(document.getElementById('imgPic'))
+        images.prepend('<div class="img" style="background-image: url(\'' + [[${path}]] + '/getImage?id=' + imageId + '\');"><span>remove</span></div>')
+        changeHeightWidth(width, 'width')
+        changeHeightWidth(height, 'height')
+        console.log(id)
     }
+
     const modal = document.getElementById("modal");
     const btn = document.getElementById("open-modal-btn");
 
@@ -247,23 +312,6 @@
         }
     };
 
-    function saveSection() {
-        var fileInput = document.getElementById("image");
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append("image", file);
-        formData.append("name", document.getElementById('name').value)
-        formData.append("sectionHeader", document.getElementById('sectionHeader').value)
-        formData.append("width", document.getElementById('width').value)
-        formData.append("height", document.getElementById('height').value)
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "addSection", true);
-        xhr.onload = function () {
-            location.reload()
-        };
-        xhr.send(formData);
-    }
-
     function previewImage(event) {
         var image = document.querySelector('.imageBox img');
         image.src = URL.createObjectURL(event.target.files[0]);
@@ -279,7 +327,7 @@
 
         function uploadImage() {
             var button = $('.images .pic')
-            var uploader = $('<input id="image" hidden type="file" accept="image/*" />')
+            var uploader = $('<input id="image" name="image" hidden type="file" accept="image/*" />')
             var images = $('.images')
             images.prepend(uploader)
 
@@ -307,9 +355,9 @@
         }
     });
 
-    function changeHeightWidth(thiz, orientation) {
+    function changeHeightWidth(value, orientation) {
 
-        var data = thiz.value + 'px';
+        var data = value + 'px';
         if (orientation == 'height') {
             $('.images .img,.images .pic').css({
                 'height': data

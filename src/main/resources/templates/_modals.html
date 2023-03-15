@@ -7,51 +7,58 @@
 <body>
 
 <div th:fragment="addSection" id="modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" id="modal-content">
         <span class="close">&times;</span>
         <h4>Hello, this is a modal dialog!</h4>
 
-        <div>
-            <span>width</span>
-            <input onchange="changeHeightWidth(this,'width')" style="width: 70px;height: 20px;border-radius: 5px;color: black" value="150" type="number"
-                   name="width"
-                   id="width">
-        </div>
-        <div class="smallWrap">
-            <div id="images" class="images">
-                <div id="imgPic" class="pic">
-                    add
-                </div>
+        <form id="modal-content-form" th:action="@{/saveSection}" method="post" enctype="multipart/form-data">
+            <div>
+                <span>width</span>
+                <input onchange="changeHeightWidth(this.value,'width')"
+                       style="width: 70px;height: 20px;border-radius: 5px;color: black" value="150" type="number"
+                       name="imageWidth"
+                       id="width">
             </div>
-            <div style="width: 70px;padding: 5px">
-                <div style="width: 100%;height: 45%;display: flex;align-items: flex-end">
-                    <span>height:</span>
-                </div>
-                <div style="height: 55%">
-                    <input onchange="changeHeightWidth(this,'height')" style="width: 90%;height: 20px; border-radius: 5px;color: black" value="150" type="number"
-                           name="height"
-                           id="height">
-                </div>
-            </div>
-            <div style="display: block;width: 100%">
-                <div style="display: flex;justify-content: center;padding: 10px">
-                    <div style="width: 30%;display: flex;text-align: end;padding: 5px;justify-content: end">
-                        <span>Section header</span>
+            <div class="smallWrap">
+                <div id="images" class="images">
+                    <div id="imgPic" class="pic">
+                        add
                     </div>
-                    <input style="height: 40px;font-size: 34px;border-radius: 5px;width: 70%;color: black" type="text"
-                           name="sectionHeader" id="sectionHeader">
                 </div>
-                <div style="display: flex;justify-content: center;padding: 10px">
-                    <div style="width: 30%;display: flex;text-align: end;padding: 5px;justify-content: end">
-                        <span>Name</span>
+                <div style="width: 70px;padding: 5px">
+                    <div style="width: 100%;height: 45%;display: flex;align-items: flex-end">
+                        <span>height:</span>
                     </div>
-                    <input style="border-radius: 5px;width: 70%;color: black" type="text" name="name" id="name">
+                    <div style="height: 55%">
+                        <input onchange="changeHeightWidth(this.value,'height')"
+                               style="width: 90%;height: 20px; border-radius: 5px;color: black" value="150"
+                               type="number"
+                               name="imageHeight"
+                               id="height">
+                    </div>
                 </div>
-                <div style="display: flex;justify-content: flex-end;padding: 10px;margin-top: 20px">
-                    <button style="padding: 10px 15px;border: none;border-radius: 5px;background-color: #A390D9FF;cursor: pointer" onclick="saveSection()">Save</button>
+                <div style="display: block;width: 100%">
+                    <div style="display: flex;justify-content: center;padding: 10px">
+                        <div style="width: 30%;display: flex;text-align: end;padding: 5px;justify-content: end">
+                            <span>Section header</span>
+                        </div>
+                        <input style="height: 40px;font-size: 34px;border-radius: 5px;width: 70%;color: black"
+                               type="text"
+                               name="sectionHeader" id="sectionHeader">
+                    </div>
+                    <div style="display: flex;justify-content: center;padding: 10px">
+                        <div style="width: 30%;display: flex;text-align: end;padding: 5px;justify-content: end">
+                            <span>Name</span>
+                        </div>
+                        <input style="border-radius: 5px;width: 70%;color: black" type="text" name="name" id="name">
+                    </div>
+                    <div style="display: flex;justify-content: flex-end;padding: 10px;margin-top: 20px">
+                        <button type="submit" style="padding: 10px 15px;border: none;border-radius: 5px;background-color: #A390D9FF;cursor: pointer">Save
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 </body>

@@ -2,11 +2,14 @@ package com.smuraha.mycode.dao.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -23,4 +26,7 @@ public class Section extends BaseEntity{
     private Image sectionImage;
     private int imageWidth;
     private int imageHeight;
+
+    @OneToMany(mappedBy = "section")
+    private List<CodeSample> samples;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,21 +20,22 @@
         </div>
         <div id="scroller" class="wrapper">
             <div th:each="section : ${sections}"
-                 th:data-url="${section.name}"
+                 th:data-url="'section/'+${section.name}"
                  onclick="location.href=this.getAttribute('data-url')" class=" wrappedCard">
                 <div class="cardHeader">
                     <div class="cardTitle" th:text="${section.sectionHeader}">
                     </div>
                     <div th:if="${!isMobile}" class="cardLogo">
-                        <img th:style="${'width:'+section.imageWidth+'px;height:'+section.imageHeight}+'px'" th:src="@{${'/getImage?id='+section.sectionImage.id}}">
+                        <img th:style="${'width:'+section.imageWidth+'px;height:'+section.imageHeight}+'px'"
+                             th:src="@{${'/getImage?id='+section.sectionImage.id}}">
                     </div>
                     <div th:if="${isMobile}" class="cardLogo">
-                        <img th:style="${'width:'+section.imageWidth*0.6+'px;height:'+section.imageHeight*0.6}+'px'" th:src="@{${'/getImage?id='+section.sectionImage.id}}">
+                        <img th:style="${'width:'+section.imageWidth*0.6+'px;height:'+section.imageHeight*0.6}+'px'"
+                             th:src="@{${'/getImage?id='+section.sectionImage.id}}">
                     </div>
                 </div>
                 <div class="cardFooter">
-                    <div class="sampleNumber">
-                        74
+                    <div class="sampleNumber" th:text="${section.samples.size()}">
                     </div>
                     <div class="sample">
                         samples
@@ -43,6 +45,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         <div>
             <img class="slideArrow" id="slideRight" th:src="@{/images/right_scroll.svg}">
         </div>

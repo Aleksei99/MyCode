@@ -23,7 +23,7 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
-        .csrf().disable();
+        /*.csrf().disable()*/;
 
         return http.build();
     }

@@ -10,9 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import java.io.FileOutputStream;
@@ -29,23 +28,36 @@ public class AdminController {
     private final SectionRepository sectionRepository;
 
     @GetMapping("/admin")
-    public String getAdminPage(Model model){
+    public String getAdminPage(Model model,HttpServletRequest request){
         model.addAttribute("sections",sectionRepository.findAll());
+        model.addAttribute("path",request.getContextPath());
         return "admin";
     }
 
-    @PostMapping("/addSection")
-    public String uploadImage(HttpServletRequest request) throws IOException {
+    @ModelAttribute("section")
+    public Section getEmptySection(){
+        return new Section();
+    }
+
+    @PostMapping("/saveSection")
+    public String saveSection(@ModelAttribute Section section,@RequestParam(value = "image", required = false) MultipartFile file) throws IOException {
         String uuid = UUID.randomUUID().toString();
         String fileName = uuid + ".png";
-        Image image = new Image(fileName,"image/png",((StandardMultipartHttpServletRequest) request).getFile("image").getBytes());
-        imageRepository.saveAndFlush(image);
-        Section section = new Section(request.getParameter("name"),
-                request.getParameter("sectionHeader"),
-                image,
-                Integer.parseInt(request.getParameter("width")),
-                Integer.parseInt(request.getParameter("height")));
+        Image image;
+        if(file!=null) {
+            image = new Image(fileName, "image/png", file.getBytes());
+            imageRepository.saveAndFlush(image);
+        }else {
+            image = sectionRepository.findById(section.getId()).orElseGet(this::getEmptySection).getSectionImage();
+        }
+        section.setSectionImage(image);
         sectionRepository.save(section);
+        return "redirect:/admin";
+    }
+
+    @DeleteMapping("/deleteSection")
+    public String deleteSection(@RequestParam("id") Long id){
+        sectionRepository.deleteById(id);
         return "redirect:/admin";
     }
 
