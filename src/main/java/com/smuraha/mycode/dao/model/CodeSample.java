@@ -25,4 +25,8 @@ public class CodeSample extends BaseEntity{
     @JoinColumn(name = "section_id")
     private Section section;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }

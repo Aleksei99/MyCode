@@ -28,10 +28,10 @@
         border: var(--bs-alert-border);
         border-radius: var(--bs-alert-border-radius);
     }
-    .alert-success {
-        --bs-alert-color: #0f5132;
-        --bs-alert-bg: #d1e7dd;
-        --bs-alert-border-color: #badbcc;
+    .alert-danger {
+        --bs-alert-color: #842029;
+        --bs-alert-bg: #ff4959;
+        --bs-alert-border-color: #ff0019;
     }
     .alert-danger .alert-link {
         color: #6a1a21;
@@ -89,36 +89,28 @@
 <body>
 <div class="containerLogin">
     <div class="wrap-login100">
-        <form class="login100-form" th:action="@{/login}" method="post">
+        <form class="login100-form" th:action="@{/registerStepVerification}" method="post">
             <div class="login100-form-logo">
                 <img th:src="@{/images/Logo.svg}">
             </div>
-            <div th:if="${registered}" class="alert alert-success alert-dismissible fade show" role="alert">
-                <span style="font-size: 12px" id="message">Success! You can now login</span>
+            <div>
+                <p style="text-align: center;color: aliceblue;">Please, check your mailbox for verification code</p>
+            </div>
+            <div class="form-floating">
+                <input autocomplete="false" type="text" class="form-control wrap-input100" name="token" id="token">
+                <label style="color: white" for="token">Verification code</label>
+            </div>
+            <div th:if="${errorToken}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span id="message">Invalid verification Code!</span>
                 <button type="button" onclick="closeAlert(this)" class="btn-close" data-bs-dismiss="alert"
                         aria-label="Close"></button>
             </div>
-            <div class="form-floating">
-                <input autocomplete="true" type="text" class="form-control wrap-input100" name="username" id="username"
-                       placeholder="user">
-                <label style="color: white" for="username">Email</label>
-            </div>
-            <div class="form-floating">
-                <input autocomplete="true" type="password" class="form-control wrap-input100" name="password"
-                       id="password" placeholder="Password">
-                <label style="color: white" for="password">Password</label>
-            </div>
-            <div class="container-login100-form-btn">
-                <div class="loginHintContainer forgotPassword">
-                    <a class="loginHint" th:href="@{/resetPassword}">Forgot password?</a>
-                </div>
+            <div class="container-login100-form-btn" style="justify-content: center !important;">
                 <div class="loginHintContainer mobileTop20">
-                    <button class="login100-form-btn">Login</button>
-                </div>
-                <div class="loginHintContainer">
-                    <a class="loginHint" th:href="@{/registration}">Not registered yet?</a>
+                    <button class="login100-form-btn">Continue</button>
                 </div>
             </div>
+            <input type="hidden" name="email" th:value="${email}">
         </form>
     </div>
 </div>

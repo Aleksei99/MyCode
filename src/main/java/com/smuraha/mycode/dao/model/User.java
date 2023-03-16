@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +23,13 @@ public class User extends BaseEntity{
     private String password;
     @Enumerated(EnumType.STRING)
     private MyAuthority myAuthority;
+
+    @OneToMany(mappedBy = "user")
+    private List<CodeSample> samples;
+
+    public User(String email, String pass, MyAuthority authority) {
+        this.email = email;
+        this.password=pass;
+        this.myAuthority=authority;
+    }
 }
