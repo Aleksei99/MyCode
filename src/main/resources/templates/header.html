@@ -12,8 +12,8 @@
                 <img style="margin-top: 12px;margin-left: 10px" th:src="@{/images/Logo.svg}">
             </div>
             <div class="right-menu">
-                <a class="menuItem" href="/">Explore</a>
-                <a class="menuItem" href="#">My storage</a>
+                <a class="menuItem" th:href="@{/}">Explore</a>
+                <a class="menuItem" sec:authorize="isAuthenticated()" th:href="@{/storage}">My storage</a>
                 <a class="menuItem" href="#">FAQ</a>
                 <a sec:authorize="!isAuthenticated()" class="menuItem" th:href="@{/login}">Sign In</a>
                 <a sec:authorize="isAuthenticated()" class="menuItem" href="javascript: document.logoutForm.submit()"
@@ -32,12 +32,12 @@
             <nav>
                 <ul>
                     <li>
-                        <a class="burgerItem" href="/">Explore</a>
+                        <a class="burgerItem" th:href="@{/}">Explore</a>
                     </li>
                 </ul>
                 <ul>
                     <li>
-                        <a class="burgerItem" href="#">My storage</a>
+                        <a class="burgerItem" sec:authorize="isAuthenticated()" th:href="@{/storage}">My storage</a>
                     </li>
                 </ul>
                 <ul>

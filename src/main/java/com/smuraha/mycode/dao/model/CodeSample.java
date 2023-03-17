@@ -20,6 +20,7 @@ public class CodeSample extends BaseEntity{
     private String code;
     @Column(length = 20_000)
     private String description;
+    private String header;
 
     @ManyToOne
     @JoinColumn(name = "section_id")

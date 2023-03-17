@@ -13,10 +13,11 @@
 <body>
 <div class="container body">
     <div th:replace="~{header::header}"></div>
-    <div class="row m-top-3">
-        <div class="col code-right-padding">
+    <h2 class="justify-center">Header</h2>
+    <div class="m-top-3">
+        <div class="justify-center">
         <pre>
-    <code class="code language-java">
+    <code>
     @Override
     public boolean sendMessageToEmail(String email, String subject, String text) {
         MimeMessage message = smtpMessage.getMessage();
@@ -42,16 +43,49 @@
         </pre>
         </div>
 
-        <div class="col">
+        <div>
+            <h3>Hello</h3>
             <p>Lörem ipsum vass Erik Jonasson. Julia Gunnarsson lenat valogi utom prens. Agons pres pyde bes. Ira
                 teleling
-                gupåsat. Anas polyda eftersom dorade och enit.</p>
-            <p>Bioterrorism dystik. Morade burtad monoling. Mälig telasam Gunilla Lundström sedan bröllopskoordinator.
+                gupåsat. Anas polyda eftersom dorade och enit.Bioterrorism dystik. Morade burtad monoling. Mälig telasam Gunilla Lundström sedan bröllopskoordinator.
                 Symor. Biogt Johanna Jonasson.</p>
+            <p>Bioterrorism dystik. Morade burtad monoling. Mälig telasam Gunilla Lundström sedan bröllopskoordinator.
+                Symor. Biogt Johanna Jonasson.Lörem ipsum vass Erik Jonasson. Julia Gunnarsson lenat valogi utom prens. Agons pres pyde bes. Ira
+                teleling
+                gupåsat. Anas polyda eftersom dorade och enit</p>
             <p>Kvasituböll kvasis. Sutagen autovis guvaledes. Operalogi Irene Dahlberg tösk. Pelör
                 egenanställningsföretag.
+                Ultrasamma neling att vägg-tv pörände.Kvasituböll kvasis. Sutagen autovis guvaledes. Operalogi Irene Dahlberg tösk. Pelör
+                egenanställningsföretag.
                 Ultrasamma neling att vägg-tv pörände.</p>
-            </p>
+
+        </div>
+        <div class="justify-center">
+        <pre>
+    <code>
+    @Override
+    public boolean sendMessageToEmail(String email, String subject, String text) {
+        MimeMessage message = smtpMessage.getMessage();
+        try {
+            message.setRecipients(Message.RecipientType.TO, email);
+            message.setSubject(subject, "UTF-8");
+            Multipart multipart = new MimeMultipart();
+
+            MimeBodyPart messagePart = new MimeBodyPart();
+            messagePart.setText(text, "UTF-8");
+            multipart.addBodyPart(messagePart);
+
+            message.setContent(multipart);
+            message.setSentDate(new java.util.Date());
+            Transport.send(message);
+        }catch (MessagingException ex) {
+            log.error("Ошибка создания письма - MimeMessage.", ex);
+            return false;
+        }
+        return true;
+    }
+        </code>
+        </pre>
         </div>
     </div>
 </div>
