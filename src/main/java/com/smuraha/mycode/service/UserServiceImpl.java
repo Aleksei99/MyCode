@@ -24,4 +24,11 @@ public class UserServiceImpl implements UserService {
         User user = new User(email, bCryptPasswordEncoder.encode(password), MyAuthority.USER);
         userRepository.save(user);
     }
+
+    @Override
+    public void resetPassword(String email, String password) {
+        User user = userRepository.findUserByEmail(email);
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }

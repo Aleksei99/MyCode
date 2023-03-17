@@ -15,10 +15,11 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public boolean verified(String email, String token) {
-        final Verification verification = verificationRepository.findByTokenAndUsedIsFalseAndValidToAfterAndEmail(token, LocalDateTime.now(), email);
+        Verification verification = verificationRepository.findByTokenAndUsedIsFalseAndValidToAfterAndEmail(token, LocalDateTime.now(), email);
         boolean verified = verification != null;
         if(verified){
             verification.setUsed(true);
+            verificationRepository.save(verification);
         }
         return verified;
     }

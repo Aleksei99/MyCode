@@ -25,6 +25,7 @@ public class LoginController {
     @GetMapping("/login")
     public String getLoginPage(Model model){
         model.addAttribute("registered",false);
+        model.addAttribute("reset",false);
         return "login";
     }
 
@@ -64,6 +65,7 @@ public class LoginController {
     public String register(@RequestParam("email") String email,@RequestParam("password") String password,Model model){
         if (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$", password)) {
             model.addAttribute("incorrectPasswordPattern",true);
+            model.addAttribute("email",email);
             return "registerStepNewPassword";
         }
         userService.saveNewUser(email, password);
@@ -85,7 +87,31 @@ public class LoginController {
         registrationService.resetPasswordEmail(email);
         model.addAttribute("email",email);
         model.addAttribute("errorToken",false);
-        ///TODO переделать
-        return "registerStepVerification";
+        return "resetStepVerification";
+    }
+
+    @PostMapping("/resetStepVerification")
+    public String resetVerification(@RequestParam("email") String email,@RequestParam("token") String token,Model model){
+        if(!verificationService.verified(email, token)){
+            model.addAttribute("email",email);
+            model.addAttribute("errorToken",true);
+            return "resetStepVerification";
+        }
+        model.addAttribute("email",email);
+        model.addAttribute("incorrectPasswordPattern",false);
+        return "resetStepNewPassword";
+    }
+
+    @PostMapping("/reset")
+    public String reset(@RequestParam("email") String email,@RequestParam("password") String password,Model model){
+        if (!Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$", password)) {
+            model.addAttribute("incorrectPasswordPattern",true);
+            model.addAttribute("email",email);
+            return "resetStepNewPassword";
+        }
+        userService.resetPassword(email, password);
+        model.addAttribute("registered",false);
+        model.addAttribute("reset",true);
+        return "login";
     }
 }
