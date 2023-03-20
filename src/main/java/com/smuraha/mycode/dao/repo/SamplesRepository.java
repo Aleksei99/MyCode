@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SamplesRepository extends JpaRepository<CodeSample,Long> {
-    Page<CodeSample> findAllSamples(Pageable pageable);
+    Page<CodeSample> findAll(Pageable pageable);
 }

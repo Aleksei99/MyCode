@@ -28,6 +28,11 @@
                 <button type="button" onclick="closeAlert(this)" class="btn-close" data-bs-dismiss="alert"
                         aria-label="Close"></button>
             </div>
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span style="font-size: 12px" id="message3">Incorrect login or password!</span>
+                <button type="button" onclick="closeAlert(this)" class="btn-close" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+            </div>
             <div class="form-floating">
                 <input autocomplete="true" type="text" class="form-control wrap-input100" name="username" id="username"
                        placeholder="user">

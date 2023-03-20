@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
 
+import static com.smuraha.mycode.service.util.Util.wrapListToPage;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -29,8 +31,14 @@ public class StorageController {
         if(user.getMyAuthority().equals(MyAuthority.ADMIN)){
             model.addAttribute("samples",samplesService.finAllByPage(pageable));
         }else{
-            model.addAttribute("samples",samplesService.wrapToPage(user.getSamples()));
+            model.addAttribute("samples",wrapListToPage(user.getSamples(),pageable));
         }
         return "storage";
+    }
+
+    @GetMapping("/newSample")
+    @Secured({"USER","ADMIN"})
+    public String getNewSamplePage(){
+        return "editCodeSample";
     }
 }

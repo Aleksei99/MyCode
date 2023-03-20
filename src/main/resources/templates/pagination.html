@@ -64,6 +64,7 @@
                     th:with="startPage=${math.max(1, page.getNumber() -1)},endPage=${math.min(startPage + 4, page.getTotalPages())}">
                 <a th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}"
                    th:id="${'pagination-page-' + pageNumber}"
+                   th:unless="${pageNumber==0}"
                    th:href="${urlBuilder.fromCurrentRequest().replaceQueryParam('page', pageNumber -1).toUriString()}"
                    class="btn"
                    th:classappend="${page.number == pageNumber - 1?'btn-dark-selected':'btn-grey'}">

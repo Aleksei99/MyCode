@@ -64,6 +64,7 @@
     color: #000;
     text-decoration: none;
     opacity: 0.75;
+    cursor: pointer;
 }
 .btn-close:focus {
     outline: 0;

@@ -17,6 +17,6 @@ public class SamplesServiceImpl implements SamplesService {
 
     @Override
     public Page<CodeSample> finAllByPage(Pageable pageable) {
-        return samplesRepository.findAllSamples(pageable);
+        return samplesRepository.findAll(pageable);
     }
 }

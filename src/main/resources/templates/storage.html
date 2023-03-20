@@ -10,6 +10,45 @@
     <link type="text/css" rel="stylesheet" th:href="@{/styles/androidstudio.min.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/myCss/Main.css}"/>
 </head>
+<style>
+    .newButton {
+        padding: 6px 9px;
+        background: darkviolet;
+        border: none;
+        color: aliceblue;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        -webkit-transition: all .4s;
+        -o-transition: all .4s;
+        -moz-transition: all .4s;
+        transition: all .6s;
+    }
+
+    .newButton:hover {
+        box-shadow: 0px 2px 4px 2px rgba(106, 255, 248, 0.65);
+        -webkit-transition: all .4s;
+        -o-transition: all .4s;
+        -moz-transition: all .4s;
+        transition: all .6s;
+    }
+    .button {
+        background-color: unset;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .delete:hover {
+        background-color: red;
+    }
+
+    .edit:hover {
+        background-color: #0004ff;
+    }
+</style>
 <body>
 <div class="container body">
     <div th:replace="~{header::header}"></div>
@@ -26,12 +65,34 @@
         <tr>
             <th>Author</th>
             <th>Title</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="sample : ${samples}">
             <td>Gloria</td>
             <td>Reeves</td>
+            <td>
+                <button class="button edit">
+                    <img th:src="@{/images/pen.svg}">
+                </button>
+            </td>
+            <td>
+                <button type="submit" class="button delete">
+                    <img th:src="@{/images/trash.svg}">
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="newButton" th:href="@{/newSample}" id="open-modal-btn">
+                    New
+                </a>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
 
         </tbody>
