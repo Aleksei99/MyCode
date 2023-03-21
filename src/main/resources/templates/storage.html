@@ -63,7 +63,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th>Author</th>
+            <th>Section</th>
             <th>Title</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -71,7 +71,7 @@
         </thead>
         <tbody>
         <tr th:each="sample : ${samples}">
-            <td>Gloria</td>
+            <td th:text="${sample.section.name}"></td>
             <td>Reeves</td>
             <td>
                 <button class="button edit">

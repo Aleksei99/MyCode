@@ -11,7 +11,7 @@
     <link type="text/css" rel="stylesheet" th:href="@{/myCss/Main.css}"/>
 </head>
 <style>
-    textarea{
+    textarea {
         color: #a9b7c6;
         background: #282b2e;
         border-radius: 34px;
@@ -21,12 +21,14 @@
         white-space: nowrap;
         border: none;
     }
-    .panelTool{
+
+    .panelTool {
         position: fixed;
         width: 100%;
         left: 0;
     }
-    .form-control-select{
+
+    .form-control-toolBar {
         display: block;
         border: none;
         padding: 6px 9px;
@@ -37,7 +39,8 @@
         margin-right: 5px;
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
-    .okButton{
+
+    .okButton {
         padding: 6px 9px;
         background: darkviolet;
         border: none;
@@ -50,12 +53,23 @@
         -moz-transition: all .4s;
         transition: all .6s;
     }
-    .okButton:hover{
+
+    .cursor-pointer:hover {
+        cursor: pointer;
+    }
+
+    .okButton:hover {
         box-shadow: 0px 2px 4px 2px rgba(106, 255, 248, 0.65);
         -webkit-transition: all .4s;
         -o-transition: all .4s;
         -moz-transition: all .4s;
         transition: all .6s;
+    }
+
+    .space-between {
+        display: flex;
+        margin: 15px;
+        justify-content: space-between;
     }
 </style>
 <body>
@@ -63,101 +77,58 @@
     <div th:replace="~{header::header}"></div>
 
     <div>
-    <div class="panelTool m-top-3 justify-center">
-        <select class="form-control-select" name="element_type">
-            <option value="p">paragraph</option>
-            <option value="h2">h2</option>
-            <option value="h3">h3</option>
-        </select>
-        <select class="form-control-select" name="element_position">
-            <option value="text-align:left;">left</option>
-            <option value="text-align:center;">center</option>
-            <option value="text-align:right;">right</option>
-        </select>
-        <button class="okButton" id="apply_change">Apply</button>
+        <div class="panelTool m-top-3 justify-center">
+            <button class="form-control-toolBar cursor-pointer"
+                    onclick="addCode()">+ Code
+            </button>
+            <select class="form-control-toolBar" name="element_type">
+                <option value="p">paragraph</option>
+                <option value="h2">h2</option>
+                <option value="h3">h3</option>
+            </select>
+            <select class="form-control-toolBar" name="element_position">
+                <option value="text-align:left;">left</option>
+                <option value="text-align:center;">center</option>
+                <option value="text-align:right;">right</option>
+            </select>
+            <button class="okButton" id="apply_change">Apply</button>
+        </div>
     </div>
-    </div>
-    <div class="m-top-6">
+    <div class="m-top-6" id="contentArea">
 
         <div contenteditable="true">
             <p>Paste your text here</p>
         </div>
 
-
-        <pre>
-    <code id="codeTag">
-    @Override
-    public boolean sendMessageToEmail(String email, String subject, String text) {
-        MimeMessage message = smtpMessage.getMessage();
-        try {
-            message.setRecipients(Message.RecipientType.TO, email);
-            message.setSubject(subject, "UTF-8");
-            Multipart multipart = new MimeMultipart();
-
-            MimeBodyPart messagePart = new MimeBodyPart();
-            messagePart.setText(text, "UTF-8");
-            multipart.addBodyPart(messagePart);
-
-            message.setContent(multipart);
-            message.setSentDate(new java.util.Date());
-            Transport.send(message);
-        }catch (MessagingException ex) {
-            log.error("Ошибка создания письма - MimeMessage.", ex);
-            return false;
-        }
-        return true;
-    }
-        </code>
-        </pre>
-
-        <textarea onkeyup="updateCode(this.value)" onfocus='setHeight(this)' oninput='setHeight(this)' id="code">
-    @Override
-    public boolean sendMessageToEmail(String email, String subject, String text) {
-
-        try {
-            message.setRecipients(Message.RecipientType.TO, email);
-            message.setSubject(subject, "UTF-8");
-            Multipart multipart = new MimeMultipart();
-
-            MimeBodyPart messagePart = new MimeBodyPart();
-            messagePart.setText(text, "UTF-8");
-            multipart.addBodyPart(messagePart);
-
-            message.setContent(multipart);
-            message.setSentDate(new java.util.Date());
-            Transport.send(message);
-        }catch (MessagingException ex) {
-            log.error("Ошибка создания письма - MimeMessage.", ex);
-            return false;
-        }
-        return true;
-    }
-        </textarea>
-
-        <p>Lörem ipsum vass Erik Jonasson. Julia Gunnarsson lenat valogi utom prens. Agons pres pyde bes. Ira
-            teleling
-            gupåsat. Anas polyda eftersom dorade och enit.Bioterrorism dystik. Morade burtad monoling. Mälig telasam
-            Gunilla Lundström sedan bröllopskoordinator.
-            Symor. Biogt Johanna Jonasson.</p>
-        <p>Bioterrorism dystik. Morade burtad monoling. Mälig telasam Gunilla Lundström sedan bröllopskoordinator.
-            Symor. Biogt Johanna Jonasson.Lörem ipsum vass Erik Jonasson. Julia Gunnarsson lenat valogi utom prens.
-            Agons pres pyde bes. Ira
-            teleling
-            gupåsat. Anas polyda eftersom dorade och enit</p>
-        <p>Kvasituböll kvasis. Sutagen autovis guvaledes. Operalogi Irene Dahlberg tösk. Pelör
-            egenanställningsföretag.
-            Ultrasamma neling att vägg-tv pörände.Kvasituböll kvasis. Sutagen autovis guvaledes. Operalogi Irene
-            Dahlberg tösk. Pelör
-            egenanställningsföretag.
-            Ultrasamma neling att vägg-tv pörände.</p>
+    </div>
+    <div style="display: flex;justify-content: flex-end;padding: 30px">
+        <form th:action="@{/saveSample}" method="post">
+            <input type="hidden" name="contentArea" id="inputContent" value="">
+            <input type="hidden" name="section" id="section" value="">
+            <input type="submit" id="saveSampleSubmit" hidden>
+        </form>
+        <select class="form-control-tollBar" id="selectedSection">
+            <option th:each="section : ${sections}"
+                    th:text="${section.name}"
+                    th:value="${section.id}"></option>
+        </select>
+        <button class="okButton" onclick="saveSample()">Save</button>
+    </div>
+    <div style="height: 30px">
 
     </div>
 </div>
 <div th:replace="~{footer::foot}"></div>
 <script type="text/javascript">
 
-    $(document).ready(function (){
-        $('#apply_change').click(function() {
+    function saveSample() {
+        document.getElementById('inputContent').value=document.getElementById('contentArea').innerHTML
+        document.getElementById('section').value=document.getElementById('selectedSection').value
+        document.getElementById('saveSampleSubmit').click();
+    }
+
+    $(document).ready(function () {
+        $('#apply_change').click(function () {
             var selectedText = window.getSelection().toString();
             console.log(selectedText)
             if (selectedText) {
@@ -165,25 +136,91 @@
                 var elementPosition = $('select[name="element_position"]').val();
                 var newElement = document.createElement(elementType);
                 newElement.textContent = selectedText;
-                newElement.style=elementPosition;
+                newElement.style = elementPosition;
                 var range = window.getSelection().getRangeAt(0);
                 var parent = range.startContainer.parentElement.parentElement;
-                parent.replaceChild(newElement,range.startContainer.parentElement)
+                parent.replaceChild(newElement, range.startContainer.parentElement)
 
             }
         });
     })
 
-    function updateCode(code) {
-        console.log(document.getElementById('codeTag').innerHTML)
-        document.getElementById('codeTag').innerHTML=code
+    function addCode() {
+        var content = document.getElementById('contentArea');
+        var textArea = document.createElement('textarea');
+        var pre = document.createElement('pre');
+        pre.style.display = 'none'
+        var code = document.createElement('code');
+        var id = Date.now().toString(36) + Math.random().toString(36).substring(2);
+        pre.id = 'pre' + id;
+        code.id = 'code' + id;
+        pre.appendChild(code)
+        textArea.id = 'textArea' + id;
+        textArea.name = 'textArea' + id;
+        textArea.setAttribute('onfocus', 'setHeight(this)')
+        textArea.setAttribute('oninput', 'setHeight(this)')
+        content.appendChild(textArea)
+        content.appendChild(pre)
+        var div = document.createElement('div');
+        div.className = 'space-between'
+        var buttonAddText = document.createElement('button');
+        buttonAddText.setAttribute('onclick', 'addText(this)');
+        buttonAddText.className = 'okButton';
+        buttonAddText.textContent = '+ Text'
+        var buttonView = document.createElement('button');
+        buttonView.id = 'buttonView'+id;
+        buttonView.className = 'okButton'
+        buttonView.textContent = 'View'
+        buttonView.setAttribute('onclick',"displayCode('"+id+"')")
+        var buttonEdit = document.createElement('button');
+        buttonEdit.id = 'buttonEdit'+id;
+        buttonEdit.className = 'okButton'
+        buttonEdit.textContent = 'Edit'
+        buttonEdit.style.display = 'none'
+        buttonEdit.setAttribute('onclick',"displayTextArea('"+id+"')")
+        div.append(buttonAddText, buttonView, buttonEdit)
+        content.appendChild(div)
+
+    }
+
+    function displayCode(id) {
+        document.getElementById('pre'+id).style.display='block';
+        document.getElementById('buttonView'+id).style.display='none'
+        document.getElementById('textArea'+id).style.display='none'
+        document.getElementById('buttonEdit'+id).style.display='block'
+        displayStyledCode(document.getElementById('textArea'+id).value,id)
+    }
+    function displayTextArea(id) {
+        document.getElementById('pre'+id).style.display='none';
+        document.getElementById('buttonView'+id).style.display='block'
+        document.getElementById('textArea'+id).style.display='block'
+        document.getElementById('buttonEdit'+id).style.display='none'
+    }
+
+    function displayStyledCode(code,id) {
+        document.getElementById('code'+id).innerHTML = code
         console.log(code)
         hljs.highlightAll();
     }
-    function setHeight(thiz){
+
+    function addText(thiz) {
+        var div = document.createElement('div');
+        div.setAttribute('contenteditable', 'true')
+        var p = document.createElement('p');
+        p.textContent = 'Paste your text here'
+        div.appendChild(p)
+        insertAfter(div, thiz.parentNode)
+    }
+
+    function setHeight(thiz) {
         thiz.style.height = "";
         thiz.style.height = thiz.scrollHeight + "px"
     }
+
+    function insertAfter(newNode, existingNode) {
+        existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+    }
+
     hljs.highlightAll();
 </script>
 </body>
