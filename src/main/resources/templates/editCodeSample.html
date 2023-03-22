@@ -94,7 +94,7 @@
             <button class="okButton" id="apply_change">Apply</button>
         </div>
     </div>
-    <div class="m-top-6" id="contentArea">
+    <div class="m-top-6" id="contentArea" th:if="${html!=null}" th:utext="${html}">
 
         <div contenteditable="true">
             <p>Paste your text here</p>
@@ -195,12 +195,16 @@
         document.getElementById('buttonView'+id).style.display='block'
         document.getElementById('textArea'+id).style.display='block'
         document.getElementById('buttonEdit'+id).style.display='none'
+        resetTextArea(id)
     }
 
     function displayStyledCode(code,id) {
         document.getElementById('code'+id).innerHTML = code
         console.log(code)
         hljs.highlightAll();
+    }
+    function resetTextArea(id) {
+        document.getElementById('textArea'+id).value= document.getElementById('code'+id).innerText
     }
 
     function addText(thiz) {

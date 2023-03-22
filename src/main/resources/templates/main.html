@@ -20,7 +20,7 @@
         </div>
         <div id="scroller" class="wrapper">
             <div th:each="section : ${sections}"
-                 th:data-url="'section/'+${section.name}"
+                 th:data-url="'section/'+${section.id}"
                  onclick="location.href=this.getAttribute('data-url')" class=" wrappedCard">
                 <div class="cardHeader">
                     <div class="cardTitle" th:text="${section.sectionHeader}">

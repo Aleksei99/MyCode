@@ -72,9 +72,9 @@
         <tbody>
         <tr th:each="sample : ${samples}">
             <td th:text="${sample.section.name}"></td>
-            <td>Reeves</td>
+            <td th:text="${sample.innerHtml}"></td>
             <td>
-                <button class="button edit">
+                <button th:onclick="'window.location=\'/editSample/'+${sample.id}+'\''" class="button edit">
                     <img th:src="@{/images/pen.svg}">
                 </button>
             </td>

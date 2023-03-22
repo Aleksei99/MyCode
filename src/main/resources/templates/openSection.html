@@ -10,6 +10,12 @@
     <link type="text/css" rel="stylesheet" th:href="@{/styles/androidstudio.min.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/myCss/Main.css}"/>
 </head>
+<style>
+    .tr:hover{
+        cursor: pointer;
+        background-color: #2a2626 !important;
+    }
+</style>
 <body>
 <div class="container body">
     <div th:replace="~{header::header}"></div>
@@ -29,9 +35,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="sample : ${samples}">
-            <td>Gloria</td>
-            <td>Reeves</td>
+        <tr class="tr" th:onclick="'window.location=\'/view/'+${sample.id}+'\''" th:each="sample : ${samples}">
+            <td th:text="${sample.user.email.replaceAll('@.*','')}">Gloria</td>
+            <td th:text="${sample.innerHtml}"></td>
         </tr>
 
         </tbody>

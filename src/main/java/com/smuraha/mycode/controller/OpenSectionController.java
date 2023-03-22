@@ -1,50 +1,40 @@
 package com.smuraha.mycode.controller;
 
-import com.google.common.collect.ImmutableList;
-import com.smuraha.mycode.dto.TestDto;
+import com.smuraha.mycode.dao.model.CodeSample;
+import com.smuraha.mycode.service.CodeSampleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.smuraha.mycode.service.util.Util.extractTitle;
 
 @Controller
+@RequiredArgsConstructor
 public class OpenSectionController {
 
-    private final ImmutableList<TestDto> testDtos = ImmutableList.of(
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa"),
-            new TestDto("Alex", "jpa")
-    );
+    private final CodeSampleService codeSampleService;
 
-    private final Function<Pageable, Page<TestDto>> pageFetcher = pageable -> {
-        int pageSize = pageable.getPageSize();
-        int pageNo = pageable.getPageNumber();
-        int start = pageSize * pageNo;
-        int end = Math.min(start + pageSize, testDtos.size());
-        return new PageImpl<>(testDtos.subList(start, end), pageable, testDtos.size());
-    };
-
-    public OpenSectionController() {}
-
-    @GetMapping("/section/{section}")
-    public String getSection(@PathVariable String section, Pageable pageable, Model model) {
-        Page<TestDto> samples = pageFetcher.apply(pageable);
+    @GetMapping("/section/{id}")
+    public String getSection(@PathVariable Long id, Pageable pageable, Model model) {
+        Page<CodeSample> samples = codeSampleService.findAllBySection_Id(pageable, id);
+        for (CodeSample codeSample: samples){
+            String innerHtml = codeSample.getInnerHtml();
+            codeSample.setInnerHtml(extractTitle(innerHtml));
+        }
         model.addAttribute("samples", samples);
         return "openSection";
+    }
+
+    @GetMapping("/view/{id}")
+    public String getViewPage(Model model, @PathVariable Long id){
+        model.addAttribute("html",codeSampleService.findForViewById(id).getInnerHtml());
+        return "viewCode";
     }
 }

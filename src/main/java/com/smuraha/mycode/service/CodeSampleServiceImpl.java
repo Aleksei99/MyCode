@@ -5,6 +5,8 @@ import com.smuraha.mycode.dao.model.User;
 import com.smuraha.mycode.dao.repo.CodeSampleRepository;
 import com.smuraha.mycode.dto.CodeSampleDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,5 +36,15 @@ public class CodeSampleServiceImpl implements CodeSampleService{
                 .replaceAll("display: none", "display: block");
         sample.setInnerHtml(formattedHtml);
         return sample;
+    }
+
+    @Override
+    public Page<CodeSample> finAllByPage(Pageable pageable) {
+        return codeSampleRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<CodeSample> findAllBySection_Id(Pageable pageable, Long id) {
+        return codeSampleRepository.findAllBySection_Id(pageable, id);
     }
 }
