@@ -398,6 +398,9 @@ input{
     transition: 0.5s ease-in-out;
     padding-top: 15px;
 }
+#panelTool.hidden{
+    z-index: -1;
+}
 ul{
     list-style-type: none;
 }
@@ -602,7 +605,8 @@ ul{
 }
 
 .btn.disabled, .btn:disabled {
-    opacity: 0.5;
+    background-color: #281f38;
+    color: #9f97b0;
 }
 
 .btn:not(:disabled):not(.disabled) {

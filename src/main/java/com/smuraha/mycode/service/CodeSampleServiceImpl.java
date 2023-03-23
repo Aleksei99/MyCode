@@ -11,13 +11,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CodeSampleServiceImpl implements CodeSampleService{
+public class CodeSampleServiceImpl implements CodeSampleService {
 
     private final CodeSampleRepository codeSampleRepository;
 
     @Override
     public void save(CodeSampleDto dto, User user) {
-         codeSampleRepository.save(new CodeSample(dto.getContentArea(), dto.getSection(), user));
+        CodeSample sample;
+        if (dto.getSample() != null) {
+            sample = dto.getSample();
+            sample.setInnerHtml(dto.getContentArea());
+            sample.setSection(dto.getSection());
+        } else {
+            sample = new CodeSample(dto.getContentArea(), dto.getSection(), user);
+        }
+        codeSampleRepository.save(sample);
     }
 
     @Override

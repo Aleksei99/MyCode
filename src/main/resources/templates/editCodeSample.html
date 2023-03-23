@@ -66,6 +66,21 @@
         transition: all .6s;
     }
 
+    .button {
+        background-color: #e79393;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        color: aliceblue;
+        text-decoration: none;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .delete:hover {
+        background-color: red;
+    }
+
     .space-between {
         display: flex;
         margin: 15px;
@@ -77,7 +92,7 @@
     <div th:replace="~{header::header}"></div>
 
     <div>
-        <div class="panelTool m-top-3 justify-center">
+        <div id="panelTool" class="panelTool m-top-3 justify-center">
             <button class="form-control-toolBar cursor-pointer"
                     onclick="addCode()">+ Code
             </button>
@@ -94,23 +109,26 @@
             <button class="okButton" id="apply_change">Apply</button>
         </div>
     </div>
-    <div class="m-top-6" id="contentArea" th:if="${html!=null}" th:utext="${html}">
+    <div class="m-top-6" id="contentArea" th:if="${sample.id!=null}" th:utext="${sample.innerHtml}">
+    </div>
+    <div class="m-top-6" id="contentArea" th:if="${sample.id==null}">
 
-        <div contenteditable="true">
+        <div class="editable" contenteditable="true">
             <p>Paste your text here</p>
         </div>
-
     </div>
     <div style="display: flex;justify-content: flex-end;padding: 30px">
         <form th:action="@{/saveSample}" method="post">
+            <input th:if="${sample.id!=null}" name="sample" type="hidden" th:value="${sample.id}">
             <input type="hidden" name="contentArea" id="inputContent" value="">
             <input type="hidden" name="section" id="section" value="">
             <input type="submit" id="saveSampleSubmit" hidden>
         </form>
-        <select class="form-control-tollBar" id="selectedSection">
+        <select class="form-control-toolBar" id="selectedSection">
             <option th:each="section : ${sections}"
                     th:text="${section.name}"
-                    th:value="${section.id}"></option>
+                    th:value="${section.id}"
+            th:selected="${section==sample.section}"></option>
         </select>
         <button class="okButton" onclick="saveSample()">Save</button>
     </div>
@@ -139,6 +157,12 @@
                 newElement.style = elementPosition;
                 var range = window.getSelection().getRangeAt(0);
                 var parent = range.startContainer.parentElement.parentElement;
+                if(parent.id ==='contentArea'){
+                    var editDiv = document.createElement('div');
+                    editDiv.contentEditable='true'
+                    editDiv.appendChild(newElement)
+                    parent.replaceChild(editDiv, range.startContainer.parentElement)
+                }else
                 parent.replaceChild(newElement, range.startContainer.parentElement)
 
             }
@@ -172,13 +196,21 @@
         buttonView.className = 'okButton'
         buttonView.textContent = 'View'
         buttonView.setAttribute('onclick',"displayCode('"+id+"')")
+        var newDiv = document.createElement('div')
+        newDiv.style.display='flex'
+        newDiv.id='deleteDiv'+id
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent='Delete'
+        deleteButton.className='button delete'
+        deleteButton.setAttribute('onclick',"deleteCode('"+id+"')")
+        newDiv.append(buttonView,deleteButton)
         var buttonEdit = document.createElement('button');
         buttonEdit.id = 'buttonEdit'+id;
         buttonEdit.className = 'okButton'
         buttonEdit.textContent = 'Edit'
         buttonEdit.style.display = 'none'
         buttonEdit.setAttribute('onclick',"displayTextArea('"+id+"')")
-        div.append(buttonAddText, buttonView, buttonEdit)
+        div.append(buttonAddText, newDiv, buttonEdit)
         content.appendChild(div)
 
     }
@@ -189,12 +221,45 @@
         document.getElementById('textArea'+id).style.display='none'
         document.getElementById('buttonEdit'+id).style.display='block'
         displayStyledCode(document.getElementById('textArea'+id).value,id)
+        var buttonView = document.getElementById('buttonView'+id);
+        var htmlToMove = buttonView.outerHTML;
+        var range = document.createRange();
+        var toMove = range.createContextualFragment(htmlToMove);
+        var divToDelete = document.getElementById('deleteDiv'+id);
+        divToDelete.parentNode.appendChild(toMove)
+        divToDelete.remove()
     }
+
+    function addDeleteButton(id) {
+        var newDiv = document.createElement('div')
+        newDiv.style.display='flex'
+        newDiv.id='deleteDiv'+id
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent='Delete'
+        deleteButton.className='button delete'
+        deleteButton.setAttribute('onclick',"deleteCode('"+id+"')")
+        var buttonView = document.getElementById('buttonView'+id);
+        var htmlToMove = buttonView.outerHTML;
+        var range = document.createRange();
+        var toMove = range.createContextualFragment(htmlToMove);
+        newDiv.appendChild(toMove)
+        newDiv.appendChild(deleteButton)
+        buttonView.parentElement.appendChild(newDiv)
+        buttonView.remove()
+    }
+
+    function deleteCode(id) {
+        document.getElementById('deleteDiv'+id).parentElement.remove();
+        document.getElementById('pre'+id).remove();
+        document.getElementById('textArea'+id).remove();
+    }
+
     function displayTextArea(id) {
         document.getElementById('pre'+id).style.display='none';
         document.getElementById('buttonView'+id).style.display='block'
         document.getElementById('textArea'+id).style.display='block'
         document.getElementById('buttonEdit'+id).style.display='none'
+        addDeleteButton(id)
         resetTextArea(id)
     }
 
@@ -210,11 +275,28 @@
     function addText(thiz) {
         var div = document.createElement('div');
         div.setAttribute('contenteditable', 'true')
+        div.className='editable'
         var p = document.createElement('p');
         p.textContent = 'Paste your text here'
         div.appendChild(p)
         insertAfter(div, thiz.parentNode)
+        addListenerOnEditable()
     }
+
+    function addListenerOnEditable(){
+        var editableDivs = document.querySelectorAll('.editable');
+
+        editableDivs.forEach(function (div){
+            div.addEventListener('keydown',function (e){
+                if(div.innerText==='' && e.key==='Backspace'){
+                    e.preventDefault();
+                    div.remove();
+                }
+            })
+        })
+    }
+
+    addListenerOnEditable()
 
     function setHeight(thiz) {
         thiz.style.height = "";

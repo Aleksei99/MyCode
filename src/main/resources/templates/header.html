@@ -14,7 +14,7 @@
             <div class="right-menu">
                 <a class="menuItem" th:href="@{/}">Explore</a>
                 <a class="menuItem" sec:authorize="isAuthenticated()" th:href="@{/storage}">My storage</a>
-                <a class="menuItem" href="#">FAQ</a>
+                <a sec:authorize="hasAnyAuthority('ADMIN')" class="menuItem" th:href="@{/admin}">Admin</a>
                 <a sec:authorize="!isAuthenticated()" class="menuItem" th:href="@{/login}">Sign In</a>
                 <a sec:authorize="isAuthenticated()" class="menuItem" href="javascript: document.logoutForm.submit()"
                    th:text="'Log out'"></a>
@@ -41,8 +41,8 @@
                     </li>
                 </ul>
                 <ul>
-                    <li>
-                        <a class="burgerItem" href="#">FAQ</a>
+                    <li sec:authorize="hasAnyAuthority('ADMIN')">
+                        <a class="burgerItem" th:href="@{/admin}">Admin</a>
                     </li>
                 </ul>
                 <ul>

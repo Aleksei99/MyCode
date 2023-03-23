@@ -42,9 +42,9 @@ public class StorageController {
         return sectionService.findAll();
     }
 
-    @ModelAttribute("html")
-    public String getNullHtml(){
-        return null;
+    @ModelAttribute("sample")
+    public CodeSample getNullHtml(){
+        return new CodeSample();
     }
 
     @GetMapping("/storage")
@@ -87,7 +87,7 @@ public class StorageController {
         if(!codeSample.getUser().equals(user)){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        model.addAttribute("html",codeSampleService.findFullById(id).getInnerHtml());
+        model.addAttribute("sample",codeSampleService.findFullById(id));
         return "editCodeSample";
     }
 }

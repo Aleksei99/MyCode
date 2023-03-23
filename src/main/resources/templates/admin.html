@@ -212,7 +212,6 @@
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Samples</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -220,7 +219,6 @@
             <tbody>
             <tr th:each="section : ${sections}">
                 <td th:text="${section.name}"></td>
-                <td>74</td>
                 <td th:data-id="${section.id}"
                     th:data-width="${section.imageWidth}"
                     th:data-height="${section.imageHeight}"
@@ -253,7 +251,6 @@
                         New
                     </button>
                 </td>
-                <td></td>
                 <td></td>
                 <td></td>
             </tr>
