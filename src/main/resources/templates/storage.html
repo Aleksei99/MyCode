@@ -32,6 +32,7 @@
         -moz-transition: all .4s;
         transition: all .6s;
     }
+
     .button {
         background-color: unset;
         border: none;
@@ -47,6 +48,42 @@
 
     .edit:hover {
         background-color: #0004ff;
+    }
+
+    .modal {
+        display: none; /* hide the modal by default */
+        position: fixed; /* position the modal */
+        z-index: 1; /* ensure the modal is above other content */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* enable scrolling */
+        background-color: rgba(0, 0, 0, 0.4); /* add a semi-transparent black background */
+    }
+
+    .modal-content {
+        background: linear-gradient(314.9deg, #90D4D9 17.54%, rgba(163, 144, 217) 94.67%);;
+        margin: 20% auto;
+        padding: 20px;
+        border-radius: 15px;
+        width: 80%;
+        color: #ffffff;
+        max-width: 600px;
+    }
+
+    .close {
+        color: #3c4249;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>
 <body>
@@ -79,14 +116,20 @@
                 </button>
             </td>
             <td>
-                <button type="submit" class="button delete">
+                <button type="submit" class="button delete"
+                        th:data-id="${sample.id}"
+                        th:data-title="${sample.innerHtml.toUpperCase()}"
+                        onclick="displayModal(
+                            this.getAttribute('data-id'),
+                            this.getAttribute('data-title')
+                        )">
                     <img th:src="@{/images/trash.svg}">
                 </button>
             </td>
         </tr>
         <tr>
             <td>
-                <a class="newButton" th:href="@{/newSample}" id="open-modal-btn">
+                <a class="newButton" th:href="@{/newSample}">
                     New
                 </a>
             </td>
@@ -98,7 +141,45 @@
         </tbody>
     </table>
     <div th:replace="~{pagination :: controls(page=${samples})}"></div>
+    <div th:replace="_modals::deleteSample"></div>
 </div>
 <div th:replace="~{footer::foot}"></div>
+<script>
+    const modal = document.getElementById("modal-delete-sample");
+
+
+    // get the close button
+    const closeBtn = document.querySelector(".close");
+
+    function displayModal(id,title) {
+        // open the modal when the button is clicked
+        modal.style.display = "block";
+        document.getElementById('deleteSampleId').value=id
+        document.getElementById('inputCheck').setAttribute('data-check',title)
+    }
+
+    // close the modal when the close button is clicked
+    closeBtn.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // close the modal when the user clicks anywhere outside of it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    function checkValid(input, check) {
+        var deleteButton = document.getElementById('deleteSubmit');
+        if(input==check) {
+            deleteButton.style.backgroundColor='red'
+            deleteButton.removeAttribute('disabled')
+        }else {
+            deleteButton.style.backgroundColor='#f5a3a3'
+            deleteButton.setAttribute('disabled','true')
+        }
+    }
+</script>
 </body>
 </html>

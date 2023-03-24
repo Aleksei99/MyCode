@@ -16,10 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -84,10 +81,26 @@ public class StorageController {
     public String getEditPageSample(@PathVariable Long id,Principal principal,Model model){
         User user = userService.findUserByEmail(principal.getName());
         CodeSample codeSample = codeSampleService.findFullById(id);
-        if(!codeSample.getUser().equals(user)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        if(!user.getMyAuthority().equals(MyAuthority.ADMIN)) {
+            if (!codeSample.getUser().equals(user)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
         }
         model.addAttribute("sample",codeSampleService.findFullById(id));
         return "editCodeSample";
+    }
+
+    @DeleteMapping("/deleteSample")
+    @Secured({"USER","ADMIN"})
+    public String deleteSample(@RequestParam("id") Long id,Principal principal){
+        User user = userService.findUserByEmail(principal.getName());
+        CodeSample codeSample = codeSampleService.findFullById(id);
+        if(!user.getMyAuthority().equals(MyAuthority.ADMIN)) {
+            if (!codeSample.getUser().equals(user)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            }
+        }
+        codeSampleService.delete(id);
+        return "redirect:/storage";
     }
 }

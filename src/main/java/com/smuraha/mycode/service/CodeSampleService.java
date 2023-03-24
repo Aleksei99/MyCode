@@ -13,4 +13,6 @@ public interface CodeSampleService {
 
     Page<CodeSample> finAllByPage(Pageable pageable);
     Page<CodeSample> findAllBySection_Id(Pageable pageable,Long id);
+
+    void delete(Long id);
 }

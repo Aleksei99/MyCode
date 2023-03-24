@@ -6,10 +6,27 @@
 </head>
 <body>
 
+<div th:fragment="deleteSample" id="modal-delete-sample" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h4>Confirm delete</h4>
+
+        <form th:action="@{/deleteSample}" th:method="delete">
+            <input type="hidden" name="id" id="deleteSampleId" value="">
+            <p>Enter title in CAPS</p>
+            <div>
+                <input style="color: black" onkeyup="checkValid(this.value,this.getAttribute('data-check'))" id="inputCheck"
+                       data-check="">
+                <input class="button" style="background-color: #f5a3a3" type="submit" id="deleteSubmit" value="Delete" disabled>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div th:fragment="addSection" id="modal" class="modal">
     <div class="modal-content" id="modal-content">
         <span class="close">&times;</span>
-        <h4>Hello, this is a modal dialog!</h4>
+        <h4>Editing</h4>
 
         <form id="modal-content-form" th:action="@{/saveSection}" method="post" enctype="multipart/form-data">
             <div>
@@ -53,7 +70,9 @@
                         <input style="border-radius: 5px;width: 70%;color: black" type="text" name="name" id="name">
                     </div>
                     <div style="display: flex;justify-content: flex-end;padding: 10px;margin-top: 20px">
-                        <button type="submit" style="padding: 10px 15px;border: none;border-radius: 5px;background-color: #A390D9FF;cursor: pointer">Save
+                        <button type="submit"
+                                style="padding: 10px 15px;border: none;border-radius: 5px;background-color: #A390D9FF;cursor: pointer">
+                            Save
                         </button>
                     </div>
                 </div>

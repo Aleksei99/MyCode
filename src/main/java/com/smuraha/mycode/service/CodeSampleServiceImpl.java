@@ -55,4 +55,9 @@ public class CodeSampleServiceImpl implements CodeSampleService {
     public Page<CodeSample> findAllBySection_Id(Pageable pageable, Long id) {
         return codeSampleRepository.findAllBySection_Id(pageable, id);
     }
+
+    @Override
+    public void delete(Long id) {
+        codeSampleRepository.deleteById(id);
+    }
 }
