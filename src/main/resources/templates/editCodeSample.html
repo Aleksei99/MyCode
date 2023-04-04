@@ -113,9 +113,8 @@
     </div>
     <div class="m-top-6" id="contentArea" th:if="${sample.id==null}">
 
-        <div class="editable" contenteditable="true">
-            <p>Paste your text here</p>
-        </div>
+            <h2 id="header" contenteditable="true" style="text-align: center">Your header</h2>
+
     </div>
     <div style="display: flex;justify-content: flex-end;padding: 30px">
         <form th:action="@{/saveSample}" method="post">

@@ -79,13 +79,7 @@ public class StorageController {
     @GetMapping("/editSample/{id}")
     @Secured({"USER","ADMIN"})
     public String getEditPageSample(@PathVariable Long id,Principal principal,Model model){
-        User user = userService.findUserByEmail(principal.getName());
-        CodeSample codeSample = codeSampleService.findFullById(id);
-        if(!user.getMyAuthority().equals(MyAuthority.ADMIN)) {
-            if (!codeSample.getUser().equals(user)) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-            }
-        }
+        checkCodeSampleEdit(id, principal);
         model.addAttribute("sample",codeSampleService.findFullById(id));
         return "editCodeSample";
     }
@@ -93,14 +87,18 @@ public class StorageController {
     @DeleteMapping("/deleteSample")
     @Secured({"USER","ADMIN"})
     public String deleteSample(@RequestParam("id") Long id,Principal principal){
+        checkCodeSampleEdit(id, principal);
+        codeSampleService.delete(id);
+        return "redirect:/storage";
+    }
+
+    private void checkCodeSampleEdit(Long id, Principal principal) {
         User user = userService.findUserByEmail(principal.getName());
         CodeSample codeSample = codeSampleService.findFullById(id);
-        if(!user.getMyAuthority().equals(MyAuthority.ADMIN)) {
+        if (!user.getMyAuthority().equals(MyAuthority.ADMIN)) {
             if (!codeSample.getUser().equals(user)) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN);
             }
         }
-        codeSampleService.delete(id);
-        return "redirect:/storage";
     }
 }

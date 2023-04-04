@@ -11,7 +11,7 @@
     <link type="text/css" rel="stylesheet" th:href="@{/myCss/Main.css}"/>
 </head>
 <style>
-    .tr:hover{
+    .tr:hover {
         cursor: pointer;
         background-color: #2a2626 !important;
     }
@@ -19,14 +19,17 @@
 <body>
 <div class="container body">
     <div th:replace="~{header::header}"></div>
-    <div class="justify-center m-top-3 m-bottom-1">
-        <div>
-            <input type="text" class="searchBox">
+    <form th:action="@{/section/{id}/search(id=${section})}">
+        <div class="justify-center m-top-3 m-bottom-1">
+            <div>
+                <input type="text" name="searchWords" id="searchBox" class="searchBox">
+            </div>
+            <div class="searchBoxIcon">
+                <img onclick="searchSamples()" style="padding: 7px;width: 18px;height: 18px" th:src="@{/images/search_Icon.svg}">
+            </div>
+            <input type="submit" id="search" hidden>
         </div>
-        <div class="searchBoxIcon">
-            <img style="padding: 7px;width: 18px;height: 18px" th:src="@{/images/search_Icon.svg}">
-        </div>
-    </div>
+    </form>
     <table class="table">
         <thead>
         <tr>
@@ -45,5 +48,10 @@
     <div th:replace="~{pagination :: controls(page=${samples})}"></div>
 </div>
 <div th:replace="~{footer::foot}"></div>
+<script>
+    function searchSamples() {
+        document.getElementById('search').click();
+    }
+</script>
 </body>
 </html>
